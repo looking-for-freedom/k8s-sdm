@@ -1,4 +1,4 @@
-query SdmGoalSub {
+subscription SdmGoalSub {
   SdmGoal(state: [requested]) {
     uniqueName
     name
