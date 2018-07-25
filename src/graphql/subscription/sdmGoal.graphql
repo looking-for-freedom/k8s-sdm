@@ -1,5 +1,5 @@
-subscription SdmGoalSub {
-  SdmGoal {
+query SdmGoalSub {
+  SdmGoal(state: [requested]) {
     uniqueName
     name
     id
@@ -11,12 +11,13 @@ subscription SdmGoalSub {
       owner
       providerId
     }
-    fulfillment {
+    fulfillment(name: ["@atomist/k8-automation"], method: ["side-effect"]) @required {
       method
       name
     }
     description
     url
+    externalUrl
     state
     externalKey
     goalSet
@@ -41,3 +42,4 @@ subscription SdmGoalSub {
     data
   }
 }
+
