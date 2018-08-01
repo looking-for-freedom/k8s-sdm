@@ -18,12 +18,17 @@
         ],
         "strict": true,
         "strictNullChecks": false,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     },
     "exclude": [
         "assets",
         "build",
+        "doc",
+        "legal",
+        "log",
         "node_modules",
         ".#*"
     ],

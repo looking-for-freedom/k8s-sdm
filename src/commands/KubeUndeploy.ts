@@ -22,13 +22,11 @@ import {
     HandlerResult,
     logger,
     Parameter,
-    reduceResults,
     Success,
     Tags,
 } from "@atomist/automation-client";
 import * as k8 from "kubernetes-client";
 
-import { preErrMsg } from "../error";
 import {
     deleteApplication,
     getKubeConfig,

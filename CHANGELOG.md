@@ -9,9 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [Unreleased]: https://github.com/atomist/k8-automation/compare/0.8.0...HEAD
 
-## [0.8.0][] - 2018-05-18
+### Changed
 
-[0.8.0]: https://github.com/atomist/k8-automation/compare/0.7.3...0.8.0
+-   Update Atomist package dependencies.
+-   Update TypeScript package dependencies.
+
+## [0.8.0](https://github.com/atomist/k8-automation/compare/0.7.3...0.8.0) - 2018-05-18
 
 Helm release
 
@@ -29,9 +32,7 @@ Helm release
 -   URL when updating goal status
 -   Support to run in and only deploy to specific namespaces
 
-## [0.7.3][] - 2018-05-01
-
-[0.7.3]: https://github.com/atomist/k8-automation/compare/0.7.2...0.7.3
+## [0.7.3](https://github.com/atomist/k8-automation/compare/0.7.2...0.7.3) - 2018-05-01
 
 Mayday release
 
@@ -39,9 +40,7 @@ Mayday release
 
 -   Remove async/await
 
-## [0.7.2][] - 2018-04-27
-
-[0.7.2]: https://github.com/atomist/k8-automation/compare/0.7.1...0.7.2
+## [0.7.2](https://github.com/atomist/k8-automation/compare/0.7.1...0.7.2) - 2018-04-27
 
 Merge release
 
@@ -49,9 +48,7 @@ Merge release
 
 -   Remove environment variables from deployment spec template
 
-## [0.7.1][] - 2018-04-27
-
-[0.7.1]: https://github.com/atomist/k8-automation/compare/0.7.0...0.7.1
+## [0.7.1](https://github.com/atomist/k8-automation/compare/0.7.0...0.7.1) - 2018-04-27
 
 Merge release
 
@@ -60,9 +57,7 @@ Merge release
 -   Use standard merge when combining default and provided Kubernetes
     resource specs
 
-## [0.7.0][] - 2018-04-18
-
-[0.7.0]: https://github.com/atomist/k8-automation/compare/0.6.3...0.7.0
+## [0.7.0](https://github.com/atomist/k8-automation/compare/0.6.3...0.7.0) - 2018-04-18
 
 SDM release
 
@@ -90,9 +85,7 @@ SDM release
 [11]: https://github.com/atomist/k8-automation/issues/11
 [12]: https://github.com/atomist/k8-automation/issues/12
 
-## [0.6.3][] - 2018-04-05
-
-[0.6.3]: https://github.com/atomist/k8-automation/compare/0.6.2...0.6.3
+## [0.6.3](https://github.com/atomist/k8-automation/compare/0.6.2...0.6.3) - 2018-04-05
 
 Token release
 
@@ -100,9 +93,7 @@ Token release
 
 -   Debug statement
 
-## [0.6.2][] - 2018-04-05
-
-[0.6.2]: https://github.com/atomist/k8-automation/compare/0.6.1...0.6.2
+## [0.6.2](https://github.com/atomist/k8-automation/compare/0.6.1...0.6.2) - 2018-04-05
 
 Client release
 
@@ -110,9 +101,7 @@ Client release
 
 -   Updated to @atomist/automation-client@0.12.1
 
-## [0.6.1][] - 2018-03-30
-
-[0.6.1]: https://github.com/atomist/k8-automation/compare/0.6.0...0.6.1
+## [0.6.1](https://github.com/atomist/k8-automation/compare/0.6.0...0.6.1) - 2018-03-30
 
 Logzio release
 
@@ -121,9 +110,7 @@ Logzio release
 -   Added hostname to logzio metadata
 -   Moved logzio token config to custom from logging.custom
 
-## [0.6.0][] - 2018-03-28
-
-[0.6.0]: https://github.com/atomist/k8-automation/compare/0.5.3...0.6.0
+## [0.6.0](https://github.com/atomist/k8-automation/compare/0.5.3...0.6.0) - 2018-03-28
 
 Custom release
 
@@ -139,9 +126,7 @@ Custom release
 
 -   Logzio configuration
 
-## [0.5.3][] - 2018-03-05
-
-[0.5.3]: https://github.com/atomist/k8-automation/compare/0.5.2...0.5.3
+## [0.5.3](https://github.com/atomist/k8-automation/compare/0.5.2...0.5.3) - 2018-03-05
 
 Lowercase release
 
@@ -155,9 +140,7 @@ Lowercase release
 -   Support GitHub.com owners and repositories that do not conform to
     docker image name and tag restrictions
 
-## [0.5.2][] - 2018-03-03
-
-[0.5.2]: https://github.com/atomist/k8-automation/compare/0.5.1...0.5.2
+## [0.5.2](https://github.com/atomist/k8-automation/compare/0.5.1...0.5.2) - 2018-03-03
 
 Retry release
 
@@ -165,9 +148,7 @@ Retry release
 
 -   Retry to Kubernetes API calls
 
-## [0.5.1][] - 2018-03-02
-
-[0.5.1]: https://github.com/atomist/k8-automation/compare/0.5.0...0.5.1
+## [0.5.1](https://github.com/atomist/k8-automation/compare/0.5.0...0.5.1) - 2018-03-02
 
 Log release
 
@@ -175,9 +156,7 @@ Log release
 
 -   More logging
 
-## [0.5.0][] - 2018-03-02
-
-[0.5.0]: https://github.com/atomist/k8-automation/compare/0.4.0...0.5.0
+## [0.5.0](https://github.com/atomist/k8-automation/compare/0.4.0...0.5.0) - 2018-03-02
 
 I/O release
 
@@ -190,9 +169,7 @@ I/O release
 -   Kubernetes resource specifications and deployment instructions
 -   Rate limiting annotations to ingress controllers
 
-## [0.4.0][] - 2018-03-02
-
-[0.4.0]: https://github.com/atomist/k8-automation/compare/0.3.0...0.4.0
+## [0.4.0](https://github.com/atomist/k8-automation/compare/0.3.0...0.4.0) - 2018-03-02
 
 Un release
 
@@ -204,9 +181,7 @@ Un release
 [7]: https://github.com/atomist/k8-automation/issues/7
 [6]: https://github.com/atomist/k8-automation/issues/6
 
-## [0.3.0][] - 2018-03-01
-
-[0.3.0]: https://github.com/atomist/k8-automation/compare/0.2.6...0.3.0
+## [0.3.0](https://github.com/atomist/k8-automation/compare/0.2.6...0.3.0) - 2018-03-01
 
 Environment release
 
@@ -215,9 +190,7 @@ Environment release
 -   Minor update to repo-image deployment pod template annotation
 -   Add environment to pod k8vent annotation
 
-## [0.2.6][] - 2018-02-27
-
-[0.2.6]: https://github.com/atomist/k8-automation/compare/0.2.5...0.2.6
+## [0.2.6](https://github.com/atomist/k8-automation/compare/0.2.5...0.2.6) - 2018-02-27
 
 Host release
 
@@ -225,9 +198,7 @@ Host release
 
 -   No longer lose host from ingress rules
 
-## [0.2.5][] - 2018-02-26
-
-[0.2.5]: https://github.com/atomist/k8-automation/compare/0.2.4...0.2.5
+## [0.2.5](https://github.com/atomist/k8-automation/compare/0.2.4...0.2.5) - 2018-02-26
 
 Annotation release
 
@@ -236,9 +207,7 @@ Annotation release
 -   Moved deployment annotations to pod
 -   Return signed URL to build logs rather than console URL
 
-## [0.2.4][] - 2018-02-24
-
-[0.2.4]: https://github.com/atomist/k8-automation/compare/0.2.3...0.2.4
+## [0.2.4](https://github.com/atomist/k8-automation/compare/0.2.3...0.2.4) - 2018-02-24
 
 Build URL release
 
@@ -246,9 +215,7 @@ Build URL release
 
 -   Build status description/URL mixup
 
-## [0.2.3][] - 2018-02-24
-
-[0.2.3]: https://github.com/atomist/k8-automation/compare/0.2.2...0.2.3
+## [0.2.3](https://github.com/atomist/k8-automation/compare/0.2.2...0.2.3) - 2018-02-24
 
 Working release
 
@@ -256,9 +223,7 @@ Working release
 
 -   ingress-nginx configuration
 
-## [0.2.2][] - 2018-02-23
-
-[0.2.2]: https://github.com/atomist/k8-automation/compare/0.2.1...0.2.2
+## [0.2.2](https://github.com/atomist/k8-automation/compare/0.2.1...0.2.2) - 2018-02-23
 
 DOM release
 
@@ -266,9 +231,7 @@ DOM release
 
 -   Fix reference to build status in log message
 
-## [0.2.1][] - 2018-02-23
-
-[0.2.1]: https://github.com/atomist/k8-automation/compare/0.2.0...0.2.1
+## [0.2.1](https://github.com/atomist/k8-automation/compare/0.2.0...0.2.1) - 2018-02-23
 
 Spoon release
 
@@ -276,9 +239,7 @@ Spoon release
 
 -   Do not fork bomb builds
 
-## [0.2.0][] - 2018-02-23
-
-[0.2.0]: https://github.com/atomist/k8-automation/compare/0.1.1...0.2.0
+## [0.2.0](https://github.com/atomist/k8-automation/compare/0.1.1...0.2.0) - 2018-02-23
 
 Ingress release
 
@@ -291,9 +252,7 @@ Ingress release
 
 -   Update deploy commit status with state and endpoint URL
 
-## [0.1.1][] - 2018-02-22
-
-[0.1.1]: https://github.com/atomist/k8-automation/compare/0.1.0...0.1.1
+## [0.1.1](https://github.com/atomist/k8-automation/compare/0.1.0...0.1.1) - 2018-02-22
 
 Secret release
 
@@ -301,11 +260,9 @@ Secret release
 
 -   Use secret aware start script
 
-## [0.1.0][] - 2018-02-22
+## [0.1.0](https://github.com/atomist/k8-automation/tree/0.1.0) - 2018-02-22
 
 Initial release
-
-[0.1.0]: https://github.com/atomist/k8-automation/tree/0.1.0
 
 ### Added
 

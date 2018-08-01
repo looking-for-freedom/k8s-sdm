@@ -15,9 +15,7 @@
  */
 
 import {
-    HandlerResult,
     logger,
-    Success,
 } from "@atomist/automation-client";
 import * as appRoot from "app-root-path";
 import * as stringify from "json-stringify-safe";
@@ -225,6 +223,7 @@ export function deleteApplication(delReq: KubeDeleteRequest): Promise<void> {
                 logger.error(msg);
                 return Promise.reject(new Error(msg));
             }
+            return Promise.resolve();
         });
 }
 
@@ -709,7 +708,7 @@ function deleteIngress(req: KubeDeleteResourceRequest): Promise<void> {
     const slug = `${req.ns}/${req.name}`;
     if (!req.path) {
         logger.debug(`No path provided for ${slug}, cannot delete ingress rule`);
-        return;
+        return Promise.resolve();
     }
     return retryP(() => req.ext.namespaces(req.ns).ingresses(ingressName).get(), "get ingress")
         .then((ing: Ingress) => {
@@ -722,7 +721,7 @@ function deleteIngress(req: KubeDeleteResourceRequest): Promise<void> {
             }
             if (patch === undefined) {
                 logger.debug(`No changes to ingress necessary for ${slug}`);
-                return;
+                return Promise.resolve();
             } else if (patch === {}) {
                 logger.debug(`Last rule removed from ingress ${req.ns}/${ingressName}, deleting ingress`);
                 return retryP(() => req.ext.namespaces(req.ns).ingresses(ingressName).delete({}),

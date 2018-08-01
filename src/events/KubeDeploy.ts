@@ -38,10 +38,8 @@ import {
     updateGoal,
     UpdateSdmGoalParams,
 } from "@atomist/sdm/api-helper/goal/storeGoals";
-import * as appRoot from "app-root-path";
 import * as stringify from "json-stringify-safe";
 import * as k8 from "kubernetes-client";
-import * as path from "path";
 import {
     getKubeConfig,
     KubeApplication,
