@@ -28,11 +28,16 @@ import {
     Value,
 } from "@atomist/automation-client";
 import {
+    SdmGoal,
+    SdmGoalState,
+} from "@atomist/sdm";
+import {
+    fetchCommitForSdmGoal,
+} from "@atomist/sdm/api-helper/goal/fetchGoalsOnCommit";
+import {
     updateGoal,
     UpdateSdmGoalParams,
-} from "@atomist/sdm/common/delivery/goals/storeGoals";
-import { fetchCommitForSdmGoal } from "@atomist/sdm/common/delivery/goals/support/fetchGoalsOnCommit";
-import { SdmGoal } from "@atomist/sdm/ingesters/sdmGoalIngester";
+} from "@atomist/sdm/api-helper/goal/storeGoals";
 import * as appRoot from "app-root-path";
 import * as stringify from "json-stringify-safe";
 import * as k8 from "kubernetes-client";
@@ -126,7 +131,7 @@ export class KubeDeploy implements HandleEvent<SdmGoalSub.Subscription> {
                         .then(() => {
                             logger.info(`Successfully deployed ${depName} to Kubernetes`);
                             const params: UpdateSdmGoalParams = {
-                                state: "success",
+                                state: SdmGoalState.success,
                                 description: `Deployed to Kubernetes namespace \`${kubeApp.ns}\``,
                             };
                             if (kubeApp.path && kubeApp.host) {
@@ -240,7 +245,7 @@ export function validateSdmGoal(sdmGoal: SdmGoal, kd: KubeDeploy): KubeApplicati
 function failGoal(ctx: HandlerContext, goal: SdmGoal, message: string): Promise<HandlerResult> {
     logger.error(message);
     const params: UpdateSdmGoalParams = {
-        state: "failure",
+        state: SdmGoalState.failure,
         description: message,
         error: new Error(message),
     };
