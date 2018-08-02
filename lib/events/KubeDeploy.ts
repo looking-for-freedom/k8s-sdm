@@ -89,9 +89,9 @@ export class KubeDeploy implements HandleEvent<SdmGoalSub.Subscription> {
                     const repo = g.repo.name;
                     const owner = g.repo.owner;
                     const sha = g.sha;
-                    const teamId = ctx.teamId;
+                    const workspaceId = ctx.workspaceId;
                     const env = this.environment;
-                    const depName = `${teamId}:${env}:${owner}:${repo}:${sha}`;
+                    const depName = `${workspaceId}:${env}:${owner}:${repo}:${sha}`;
                     if (!commit.image) {
                         const msg = `Kubernetes deploy requested for ${depName} but that commit ` +
                             `has no Docker image associated with it`;
@@ -122,7 +122,7 @@ export class KubeDeploy implements HandleEvent<SdmGoalSub.Subscription> {
                     const upsertReq: KubeApplicationRequest = {
                         ...kubeApp,
                         config: k8Config,
-                        teamId,
+                        workspaceId,
                         image,
                     };
                     return upsertApplication(upsertReq)

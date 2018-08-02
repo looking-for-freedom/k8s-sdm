@@ -20,7 +20,7 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@atomist/automation-client": "^0.19.1",
+    "@atomist/automation-client": "^0.19.4",
     "@atomist/automation-client-ext-logzio": "0.1.0-20180628224529",
     "@atomist/sdm": "^0.3.2-20180801121109",
     "app-root-path": "^2.0.1",

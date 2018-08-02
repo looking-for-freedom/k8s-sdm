@@ -41,7 +41,7 @@ describe("k8", () => {
 
         it("should create a simple deployment patch", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -67,7 +67,7 @@ describe("k8", () => {
 
         it("should create a custom deployment patch", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -97,7 +97,7 @@ describe("k8", () => {
 
         it("should create a deployment patch with replicas", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -125,7 +125,7 @@ describe("k8", () => {
 
         it("should create a custom replicas deployment patch", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -161,7 +161,7 @@ describe("k8", () => {
 
         it("should create a deployment spec", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -173,15 +173,15 @@ describe("k8", () => {
             assert(d.kind === "Deployment");
             assert(d.metadata.name === req.name);
             assert(d.metadata.labels.app === req.name);
-            assert(d.metadata.labels.teamId === req.teamId);
+            assert(d.metadata.labels.workspaceId === req.workspaceId);
             assert(d.spec.replicas === 1);
             assert(d.spec.revisionHistoryLimit === 3);
             assert(d.spec.selector.matchLabels.app === req.name);
-            assert(d.spec.selector.matchLabels.teamId === req.teamId);
+            assert(d.spec.selector.matchLabels.workspaceId === req.workspaceId);
             assert(d.spec.template.metadata.annotations["atomist.com/k8vent"] ===
                 `{"environment":"new-wave","webhooks":["https://webhook.atomist.com/atomist/kube/teams/KAT3BU5H"]}`);
             assert(d.spec.template.metadata.labels.app === req.name);
-            assert(d.spec.template.metadata.labels.teamId === req.teamId);
+            assert(d.spec.template.metadata.labels.workspaceId === req.workspaceId);
             assert(d.spec.template.metadata.name === req.name);
             assert(d.spec.template.spec.containers.length === 1);
             assert(d.spec.template.spec.containers[0].name === req.name);
@@ -213,7 +213,7 @@ describe("k8", () => {
 
         it("should create a custom deployment spec", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -232,7 +232,7 @@ describe("k8", () => {
                     name: req.name,
                     labels: {
                         app: req.name,
-                        teamId: req.teamId,
+                        workspaceId: req.workspaceId,
                         env: req.environment,
                         creator: "atomist.k8-automation",
                     },
@@ -243,7 +243,7 @@ describe("k8", () => {
                     selector: {
                         matchLabels: {
                             app: req.name,
-                            teamId: req.teamId,
+                            workspaceId: req.workspaceId,
                         },
                     },
                     template: {
@@ -251,13 +251,13 @@ describe("k8", () => {
                             name: req.name,
                             labels: {
                                 app: req.name,
-                                teamId: req.teamId,
+                                workspaceId: req.workspaceId,
                                 env: req.environment,
                                 creator: "atomist.k8-automation",
                             },
                             annotations: {
                                 // tslint:disable-next-line:max-line-length
-                                "atomist.com/k8vent": `{"environment":"${req.environment}","webhooks":["https://webhook.atomist.com/atomist/kube/teams/${req.teamId}"]}`,
+                                "atomist.com/k8vent": `{"environment":"${req.environment}","webhooks":["https://webhook.atomist.com/atomist/kube/teams/${req.workspaceId}"]}`,
                             },
                         },
                         spec: {
@@ -332,7 +332,7 @@ describe("k8", () => {
 
         it("should create a deployment spec with zero replicas", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -349,7 +349,7 @@ describe("k8", () => {
                     name: req.name,
                     labels: {
                         app: req.name,
-                        teamId: req.teamId,
+                        workspaceId: req.workspaceId,
                         env: req.environment,
                         creator: "atomist.k8-automation",
                     },
@@ -360,7 +360,7 @@ describe("k8", () => {
                     selector: {
                         matchLabels: {
                             app: req.name,
-                            teamId: req.teamId,
+                            workspaceId: req.workspaceId,
                         },
                     },
                     template: {
@@ -368,13 +368,13 @@ describe("k8", () => {
                             name: req.name,
                             labels: {
                                 app: req.name,
-                                teamId: req.teamId,
+                                workspaceId: req.workspaceId,
                                 env: req.environment,
                                 creator: "atomist.k8-automation",
                             },
                             annotations: {
                                 // tslint:disable-next-line:max-line-length
-                                "atomist.com/k8vent": `{"environment":"${req.environment}","webhooks":["https://webhook.atomist.com/atomist/kube/teams/${req.teamId}"]}`,
+                                "atomist.com/k8vent": `{"environment":"${req.environment}","webhooks":["https://webhook.atomist.com/atomist/kube/teams/${req.workspaceId}"]}`,
                             },
                         },
                         spec: {
@@ -449,7 +449,7 @@ describe("k8", () => {
 
         it("should create a deployment spec with custom replicas", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -464,7 +464,7 @@ describe("k8", () => {
                     name: req.name,
                     labels: {
                         app: req.name,
-                        teamId: req.teamId,
+                        workspaceId: req.workspaceId,
                         env: req.environment,
                         creator: "atomist.k8-automation",
                     },
@@ -475,7 +475,7 @@ describe("k8", () => {
                     selector: {
                         matchLabels: {
                             app: req.name,
-                            teamId: req.teamId,
+                            workspaceId: req.workspaceId,
                         },
                     },
                     template: {
@@ -483,13 +483,13 @@ describe("k8", () => {
                             name: req.name,
                             labels: {
                                 app: req.name,
-                                teamId: req.teamId,
+                                workspaceId: req.workspaceId,
                                 env: req.environment,
                                 creator: "atomist.k8-automation",
                             },
                             annotations: {
                                 // tslint:disable-next-line:max-line-length
-                                "atomist.com/k8vent": `{"environment":"${req.environment}","webhooks":["https://webhook.atomist.com/atomist/kube/teams/${req.teamId}"]}`,
+                                "atomist.com/k8vent": `{"environment":"${req.environment}","webhooks":["https://webhook.atomist.com/atomist/kube/teams/${req.workspaceId}"]}`,
                             },
                         },
                         spec: {
@@ -532,7 +532,7 @@ describe("k8", () => {
 
         it("should create a service spec", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -549,7 +549,7 @@ describe("k8", () => {
                         creator: "atomist.k8-automation",
                         app: req.name,
                         env: req.environment,
-                        teamId: req.teamId,
+                        workspaceId: req.workspaceId,
                     },
                 },
                 spec: {
@@ -563,7 +563,7 @@ describe("k8", () => {
                     ],
                     selector: {
                         app: req.name,
-                        teamId: req.teamId,
+                        workspaceId: req.workspaceId,
                     },
                     sessionAffinity: "None",
                     type: "NodePort",
@@ -578,7 +578,7 @@ describe("k8", () => {
 
         it("should return the default", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -592,7 +592,7 @@ describe("k8", () => {
 
         it("should return the host and path", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -613,7 +613,7 @@ describe("k8", () => {
 
         it("should create a wildcard ingress spec", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -633,7 +633,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                         creator: "atomist.k8-automation",
                     },
@@ -661,7 +661,7 @@ describe("k8", () => {
 
         it("should create a host ingress spec", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -683,7 +683,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                         creator: "atomist.k8-automation",
                     },
@@ -725,7 +725,7 @@ describe("k8", () => {
 
         it("should create an ingress patch", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -735,7 +735,7 @@ describe("k8", () => {
             };
             const i = ingressTemplate(req);
             const pReq: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "and-dream-of-sheep",
@@ -775,7 +775,7 @@ describe("k8", () => {
 
         it("should add a host rule", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -785,7 +785,7 @@ describe("k8", () => {
             };
             const i = ingressTemplate(req);
             const pReq: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "and-dream-of-sheep",
@@ -843,7 +843,7 @@ describe("k8", () => {
 
         it("should add to host rule", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -854,7 +854,7 @@ describe("k8", () => {
             };
             const i = ingressTemplate(req);
             const pReq: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "and-dream-of-sheep",
@@ -896,7 +896,7 @@ describe("k8", () => {
 
         it("should throw an error if two services try to use same path", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -906,7 +906,7 @@ describe("k8", () => {
             };
             const i = ingressTemplate(req);
             const pReq: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "and-dream-of-sheep",
@@ -919,7 +919,7 @@ describe("k8", () => {
 
         it("should add to tls", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -932,7 +932,7 @@ describe("k8", () => {
             };
             const i = ingressTemplate(req);
             const pReq: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "and-dream-of-sheep",
@@ -996,7 +996,7 @@ describe("k8", () => {
 
         it("should create an ingress patch", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -1014,7 +1014,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                     },
                     name: "atm-ingress",
@@ -1069,7 +1069,7 @@ describe("k8", () => {
 
         it("should create an ingress patch for a host", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -1088,7 +1088,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                     },
                     name: "atm-ingress",
@@ -1145,7 +1145,7 @@ describe("k8", () => {
 
         it("should not do anything if there is no match", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -1163,7 +1163,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                         creator: "atomist.k8-automation",
                     },
@@ -1200,7 +1200,7 @@ describe("k8", () => {
 
         it("should remove the host-specific rule", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -1219,7 +1219,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                         creator: "atomist.k8-automation",
                     },
@@ -1317,7 +1317,7 @@ describe("k8", () => {
 
         it("should remove the host entry", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -1336,7 +1336,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                         creator: "atomist.k8-automation",
                     },
@@ -1397,9 +1397,9 @@ describe("k8", () => {
             assert.deepStrictEqual(ip, e);
         });
 
-        it("should remove the only path and return an empty object", () => {
+        it("should remove the only path and return a spec with no rules", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -1418,7 +1418,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                         creator: "atomist.k8-automation",
                     },
@@ -1444,12 +1444,13 @@ describe("k8", () => {
                 },
             };
             const ip = ingressRemove(i, req);
-            assert.deepStrictEqual(ip, {});
+            const outback: Partial<Ingress> = { spec: { rules: [] } };
+            assert.deepStrictEqual(ip, outback);
         });
 
         it("should refuse to remove the path of another service", () => {
             const req: KubeApplication = {
-                teamId: "KAT3BU5H",
+                workspaceId: "KAT3BU5H",
                 environment: "new-wave",
                 ns: "hounds-of-love",
                 name: "cloudbusting",
@@ -1468,7 +1469,7 @@ describe("k8", () => {
                     },
                     labels: {
                         ingress: "nginx",
-                        teamId: "KAT3BU5H",
+                        workspaceId: "KAT3BU5H",
                         env: "new-wave",
                         creator: "atomist.k8-automation",
                     },

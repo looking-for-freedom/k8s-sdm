@@ -16,6 +16,7 @@
 
 import {
     logger,
+    webhookBaseUrl,
 } from "@atomist/automation-client";
 import * as appRoot from "app-root-path";
 import * as stringify from "json-stringify-safe";
@@ -86,8 +87,8 @@ function getKubeClients(config: k8.ClusterConfiguration | k8.ClientConfiguration
  * updating an application in a Kubernetes cluster.
  */
 export interface KubeApplication {
-    /** Atomist team ID */
-    teamId: string;
+    /** Atomist workspace ID */
+    workspaceId: string;
     /** Arbitrary name of environment */
     environment: string;
     /** Name of resources to create */
@@ -722,7 +723,7 @@ function deleteIngress(req: KubeDeleteResourceRequest): Promise<void> {
             if (patch === undefined) {
                 logger.debug(`No changes to ingress necessary for ${slug}`);
                 return Promise.resolve();
-            } else if (patch === {}) {
+            } else if (patch.spec.rules.length < 1) {
                 logger.debug(`Last rule removed from ingress ${req.ns}/${ingressName}, deleting ingress`);
                 return retryP(() => req.ext.namespaces(req.ns).ingresses(ingressName).delete({}),
                     "delete ingress");
@@ -754,7 +755,7 @@ export function namespaceTemplate(req: KubeApplication): Namespace {
 function labels(req: KubeApplication): { [key: string]: string } {
     return {
         app: req.name,
-        teamId: req.teamId,
+        workspaceId: req.workspaceId,
         env: req.environment,
         creator,
     };
@@ -808,7 +809,7 @@ export function deploymentPatch(req: KubeApplication): Partial<Deployment> {
 export function deploymentTemplate(req: KubeApplication): Deployment {
     const k8ventAnnot = stringify({
         environment: req.environment,
-        webhooks: [`${webhookBaseUrl()}/atomist/kube/teams/${req.teamId}`],
+        webhooks: [`${webhookBaseUrl()}/atomist/kube/teams/${req.workspaceId}`],
     });
     const d: Deployment = {
         apiVersion: "extensions/v1beta1",
@@ -823,7 +824,7 @@ export function deploymentTemplate(req: KubeApplication): Deployment {
             selector: {
                 matchLabels: {
                     app: req.name,
-                    teamId: req.teamId,
+                    workspaceId: req.workspaceId,
                 },
             },
             template: {
@@ -927,7 +928,7 @@ export function serviceTemplate(req: KubeApplication): Service {
             ],
             selector: {
                 app: req.name,
-                teamId: req.teamId,
+                workspaceId: req.workspaceId,
             },
             sessionAffinity: "None",
             type: "NodePort",
@@ -1003,7 +1004,7 @@ export function ingressTemplate(req: KubeApplication): Ingress {
             },
             labels: {
                 ingress: "nginx",
-                teamId: req.teamId,
+                workspaceId: req.workspaceId,
                 env: req.environment,
                 creator,
             },
@@ -1089,8 +1090,9 @@ export function ingressPatch(ing: Ingress, req: KubeApplication): Partial<Ingres
 
 /**
  * Create a patch to remove a path from the ingress rules.  If the
- * path does not exist, undefined is returned.  If the ingress has no
- * rules after removing this rule, an empty patch object is returned.
+ * path does not exist, undefined is returned.  Note that if the last
+ * rule is removed, a patch having a spec with an empty rule array
+ * will be returned.
  *
  * @param ing ingress resource to create patch for
  * @param req ingress request
@@ -1119,9 +1121,6 @@ export function ingressRemove(ing: Ingress, req: KubeDelete): Partial<Ingress> {
     rules[ruleIndex].http.paths.splice(pathIndex, 1);
     if (rules[ruleIndex].http.paths.length < 1) {
         rules.splice(ruleIndex, 1);
-        if (rules.length < 1) {
-            return {};
-        }
     }
     const patch: Partial<Ingress> = { spec: { rules } };
     return patch;
@@ -1152,11 +1151,4 @@ function retryP<T>(
         });
     })
         .catch(e => Promise.reject(preErrMsg(e, `Failed to ${desc}`)));
-}
-
-/**
- * Scheme and hostname (authority) of the Atomist webhook URL.
- */
-export function webhookBaseUrl(): string {
-    return process.env.ATOMIST_WEBHOOK_BASEURL || "https://webhook.atomist.com";
 }
