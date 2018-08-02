@@ -26,7 +26,7 @@ import {
     ingressTemplate,
     KubeApplication,
     serviceTemplate,
-} from "../src/k8";
+} from "../lib/k8";
 
 import {
     logger,

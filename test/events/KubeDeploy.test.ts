@@ -24,7 +24,7 @@ import {
     eligibleDeployGoal,
     KubeDeploy,
     validateSdmGoal,
-} from "../../src/events/KubeDeploy";
+} from "../../lib/events/KubeDeploy";
 
 describe("KubeDeploy", () => {
 
