@@ -31,7 +31,6 @@ subscription SdmGoalSub {
       repo {
         name
         owner
-        providerId
         org {
           provider {
             providerId
