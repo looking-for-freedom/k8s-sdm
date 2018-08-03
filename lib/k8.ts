@@ -95,7 +95,7 @@ export interface KubeApplication {
     name: string;
     /** Namespace to create resources in */
     ns: string;
-    /** Full image tag for deployment pod template container */
+    /** Full image name and tag for deployment pod template container */
     image: string;
     /**
      * Name of image pull secret for container image, if not provided
@@ -118,7 +118,10 @@ export interface KubeApplication {
      * "localhost" is used when constructing the service endpoint URL.
      */
     host?: string;
-    /** Ingress protocol, "http" or "https", default is "http" */
+    /**
+     * Ingress protocol, "http" or "https".  If tslSecret is provided,
+     * the default is "https", otherwise "http".
+     */
     protocol?: "http" | "https";
     /** Name of TLS secret for host */
     tlsSecret?: string;
@@ -948,13 +951,18 @@ export function serviceTemplate(req: KubeApplication): Service {
 const ingressName = "atm-ingress";
 
 /**
- * Create the URL for a deployment.
+ * Create the URL for a deployment using the protocol, host, and tail
+ * from the req object.  If host is not provided, use "localhost".  If
+ * protocol is not provided, use "https" if tlsSecret is provided,
+ * otherwise "http".  A forward slash, /, is appended to the tail even
+ * if it is empty.
  *
  * @param req ingress request
  * @return endpoint URL for deployment service
  */
 export function endpointBaseUrl(req: KubeApplication): string {
-    const protocol = (req.protocol) ? req.protocol : "http";
+    const defaultProtocol = (req.tlsSecret) ? "https" : "http";
+    const protocol = (req.protocol) ? req.protocol : defaultProtocol;
     const host = (req.host) ? req.host : "localhost";
     const tail = (req.path) ? `${req.path}/` : "/";
     return `${protocol}://${host}${tail}`;
