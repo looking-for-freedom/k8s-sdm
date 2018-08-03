@@ -6,6 +6,48 @@ subscription SdmGoalSub {
     environment
     sha
     branch
+    push {
+      id
+      timestamp
+      branch
+      before {
+        sha
+        message
+        committer {
+          login
+        }
+      }
+      after {
+        sha
+        message
+        committer {
+          login
+        }
+        image {
+          image
+          imageName
+        }
+      }
+      repo {
+        name
+        owner
+        providerId
+        org {
+          provider {
+            providerId
+          }
+        }
+      }
+      commits {
+        sha
+        timestamp
+        message
+        author {
+          login
+          name
+        }
+      }
+    }
     repo {
       name
       owner
@@ -22,6 +64,7 @@ subscription SdmGoalSub {
     externalKey
     goalSet
     goalSetId
+    phase
     ts
     error
     retryFeasible
@@ -42,4 +85,3 @@ subscription SdmGoalSub {
     data
   }
 }
-
