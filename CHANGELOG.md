@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Migrate from teamIds to workspaceIds.
 -   **BREAKING** Removing the last rule from an ingress now returns an
     ingress patch with a spec with a zero-length rules array.
--   Default endpoint protocol is smarter, using "https" if tslSecret
+-   Default endpoint protocol is smarter, using "https" if tlsSecret
     is provided.
 
 ## [0.8.0](https://github.com/atomist/k8-automation/compare/0.7.3...0.8.0) - 2018-05-18
