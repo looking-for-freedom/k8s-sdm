@@ -109,9 +109,13 @@ Property | Required | Description
 `port` | No | Port the container service listens on, if omitted the deployment spec will have no configured liveness or readiness probe and no service will be created
 `path` | No | Absolute path under the hostname the ingress controller should use for this service, if omitted no ingress rule is created
 `host` | No | Host name to use in ingress rule, only has effect if `path` is provided, if omitted when `path` is provided, the rule is created under the wildcard host
-`protocol` | No | Scheme to use when setting the URL for the service endpoint, "https" or "http", default is "http"
+`protocol` | No | Scheme to use when setting the URL for the service endpoint, "https" or "http", default is "https" if `tlsSecret` is provided, "http" otherwise
+`replicas` | No | Number of replicas (pods) deployment should have
+`tlsSecret` | No | Name of existing [Kubernetes TLS secret][kube-tls] to use when configuring the ingress
 `deploymentSpec` | No | Stringified JSON Kubernetes deployment spec to overlay on top of default deployment spec, it only needs to contain the properties you want to add or override from the default
 `serviceSpec` | No | Stringified JSON Kubernetes service spec to overlay on top of default service spec, it only needs to contain the properties you want to add or override from the default
+
+[kube-tls]: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls (Kubernetes Ingress TLS)
 
 ## Support
 

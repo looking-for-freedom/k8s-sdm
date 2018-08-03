@@ -41,6 +41,7 @@ import {
 import * as stringify from "json-stringify-safe";
 import * as k8 from "kubernetes-client";
 import {
+    endpointBaseUrl,
     getKubeConfig,
     KubeApplication,
     KubeApplicationRequest,
@@ -133,8 +134,7 @@ export class KubeDeploy implements HandleEvent<SdmGoalSub.Subscription> {
                                 description: `Deployed to Kubernetes namespace \`${kubeApp.ns}\``,
                             };
                             if (kubeApp.path && kubeApp.host) {
-                                const scheme = (kubeApp.protocol) ? kubeApp.protocol : "http";
-                                params.url = `${scheme}://${kubeApp.host}${kubeApp.path}`;
+                                params.url = endpointBaseUrl(kubeApp);
                             }
                             return updateGoal(ctx, sdmGoal, params)
                                 .then(() => Success, err => {
