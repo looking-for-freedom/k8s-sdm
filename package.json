@@ -21,8 +21,8 @@
   "types": "./index.d.ts",
   "dependencies": {
     "@atomist/automation-client": "^0.19.4",
-    "@atomist/automation-client-ext-logzio": "0.1.0-20180628224529",
-    "@atomist/sdm": "^0.3.2-20180801121109",
+    "@atomist/automation-client-ext-logzio": "^0.1.1",
+    "@atomist/sdm": "^0.4.0-20180803134505",
     "app-root-path": "^2.0.1",
     "json-stringify-safe": "^5.0.1",
     "kubernetes-client": "^5.3.0",
