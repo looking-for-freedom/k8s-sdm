@@ -1,6 +1,7 @@
 # @atomist/k8-automation
 
-[![npm version](https://badge.fury.io/js/%40atomist%2Fk8-automation.svg)](https://badge.fury.io/js/%40atomist%2Fk8-automation)
+[![atomist sdm goals](http://badge.atomist.com/T29E48P34/atomist/k8-automation/7f92c63a-cd89-448e-8360-e9c507f87099)](https://app.atomist.com/workspace/T29E48P34)
+[![npm version](https://img.shields.io/npm/v/@atomist/k8-automation.svg)](https://www.npmjs.com/package/@atomist/k8-automation)
 [![Docker Pulls](https://img.shields.io/docker/pulls/atomist/k8-automation.svg)](https://hub.docker.com/r/atomist/k8-automation/)
 
 This repository contains automations for deploying applications to
@@ -10,19 +11,22 @@ is supported.
 
 This project uses the [`@atomist/automation-client`][client] and
 [`@atomist/sdm`][sdm] node modules to implement a local client that
-connects to the Atomist API and executes goals on behalf of a software
-delivery machine.
+connects to the Atomist API for software and executes goals on behalf
+of a software delivery machine (SDM).
+
+See the [Atomist documentation][atomist-doc] for more information on
+what SDMs are and what they can do for you using the Atomist API for
+software.
 
 [client]: https://github.com/atomist/automation-client-ts (@atomist/automation-client Node Module)
-[sdm]: https://github.com/atomist/github-sdm (@atomist/sdm Node Module)
+[sdm]: https://github.com/atomist/sdm (@atomist/sdm Node Module)
+[atomist-doc]: https://docs.atomist.com/ (Atomist Documentation)
 
 ## Prerequisites
 
 Below are brief instructions on how to get started running this
 project yourself.  If you just want to use the functionality this
-project provides, see the [Atomist documentation][docs].
-
-[docs]: https://docs.atomist.com/ (Atomist User Guide)
+project provides, see the [Atomist documentation][atomist-doc].
 
 ### Atomist workspace
 
@@ -115,13 +119,16 @@ Property | Required | Description
 `deploymentSpec` | No | Stringified JSON Kubernetes deployment spec to overlay on top of default deployment spec, it only needs to contain the properties you want to add or override from the default
 `serviceSpec` | No | Stringified JSON Kubernetes service spec to overlay on top of default service spec, it only needs to contain the properties you want to add or override from the default
 
+Full details for the `kubernetes` property can be found in the TypeDoc
+for [`KubeApplication`][kube-app].
+
 [kube-tls]: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls (Kubernetes Ingress TLS)
+[kube-app]: https://atomist.github.io/k8-automation/interfaces/_lib_k8_.kubeapplication.html (Atomist - KubeApplication - TypeDoc)
 
 ## Support
 
 General support questions should be discussed in the `#support`
-channel in our community Slack team
-at [atomist-community.slack.com][slack].
+channel in the [Atomist community Slack workspace][slack].
 
 If you find a problem, please create an [issue][].
 
@@ -129,130 +136,37 @@ If you find a problem, please create an [issue][].
 
 ## Development
 
-Before developing this project, you will need to install Node.js and
-configure your environment.
-
-### Node.js
-
-You will need to have [Node.js][node] installed.  To verify that the
-right versions are installed, please run:
-
-```console
-$ node -v
-v9.7.1
-$ npm -v
-5.6.0
-```
-
-The `node` version should be 8 or greater and the `npm` version should
-be 5 or greater.
+You will need to install [Node.js][node] to build and test this
+project.
 
 [node]: https://nodejs.org/ (Node.js)
 
-### Cloning the repository and installing dependencies
+### Build and test
 
-To get started run the following commands to clone the project,
-install its dependencies, and build the project:
+Install dependencies.
 
-```console
-$ git clone git@github.com:atomist/k8-automation.git
-$ cd k8-automation
+```
 $ npm install
+```
+
+Use the `build` package script to compile, test, lint, and build the
+documentation.
+
+```
 $ npm run build
 ```
-
-### Configuring your environment
-
-If this is the first time you will be running an Atomist API client
-locally, you should first configure your system using the `atomist`
-script:
-
-```console
-$ `npm bin`/atomist config
-```
-
-The script does two things: records what Slack team you want your
-automations running in and creates
-a [GitHub personal access token][token] with "repo" and "read:org"
-scopes.
-
-The script will prompt you for your Atomist workspace/team ID, or you
-can supply it using the `--team TEAM_ID` command-line option.  You can
-get your Atomist team ID from the settings page for your Atomist
-workspace or by typing `team` in a DM to the Atomist bot.
-
-The script will prompt you for your GitHub credentials.  It needs them
-to create the GitHub personal access token.  Atomist does not store
-your credentials and only writes the generated token to your local
-machine.
-
-The Atomist API client authenticates using a GitHub personal access
-token.  The Atomist API uses the token to confirm you are who you say
-you are and are in a GitHub organization connected to the Slack team
-in which you are running the automations.  In addition, it uses the
-token when performing any operations that access the GitHub API.
-
-[token]: https://github.com/settings/tokens (GitHub Personal Access Tokens)
-
-### Running locally
-
-You can run this automation client locally, allowing you to change the
-source code of this project and immediately see the effects in your
-environment with the following command
-
-```console
-$ npm run autostart
-```
-
-To run in a more traditional manner, build the project and then simple
-start it.
-
-```console
-$ npm run build
-$ npm start
-```
-
-To download and run the Docker image of this project, run the
-following command
-
-```console
-$ docker run --rm -e GITHUB_TOKEN=YOUR_TOKEN -e ATOMIST_TEAMS=TEAM_ID \
-    atomist/k8-automation:VERSION
-```
-
-replacing `YOUR_TOKEN` and `TEAM_ID` with the token and team ID from
-your `~/.atomist/client.config.json` created by the `atomist config`
-command and `VERSION` with the [latest release of this repo][latest].
-Note that this will not be running any code from your local machine
-but the code in the Docker image.
-
-[latest]: https://github.com/atomist/k8-automation/releases/latest
-
-### Build and Test
-
-Command | Reason
-------- | ------
-`npm install` | install all the required packages
-`npm run build` | lint, compile, and test
-`npm start` | start the Atomist automation client
-`npm run autostart` | run the client, refreshing when files change
-`npm run lint` | run tslint against the TypeScript
-`npm run compile` | compile all TypeScript into JavaScript
-`npm test` | run tests and ensure everything is working
-`npm run autotest` | run tests continuously
-`npm run clean` | remove stray compiled JavaScript files and build directory
 
 ### Release
 
-Releases are managed by the [Atomist SDM][atomist-sdm].  Press the
-"Release" button in the Atomist dashboard or Slack.
+Releases are handled via the [Atomist SDM][atomist-sdm].  Just press
+the 'Approve' button in the Atomist dashboard or Slack.
 
 [atomist-sdm]: https://github.com/atomist/atomist-sdm (Atomist Software Delivery Machine)
 
 ---
 
 Created by [Atomist][atomist].
-Need Help?  [Join our Slack team][slack].
+Need Help?  [Join our Slack workspace][slack].
 
 [atomist]: https://atomist.com/ (Atomist - How Teams Deliver Software)
 [slack]: https://join.atomist.com/ (Atomist Community Slack)

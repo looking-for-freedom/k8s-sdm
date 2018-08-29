@@ -1,17 +1,20 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased][]
+## [Unreleased](https://github.com/atomist/k8-automation/compare/0.9.0...HEAD)
 
-[Unreleased]: https://github.com/atomist/k8-automation/compare/0.9.0...HEAD
+### Changed
 
-## [0.9.0][] - 2018-08-04
+-   Update Atomist dependencies.
+-   Prepare for 1.0.0 release.
+-   Improve README.
+-   Update package scripts.
 
-[0.9.0]: https://github.com/atomist/k8-automation/compare/0.8.0...0.9.0
+## [0.9.0](https://github.com/atomist/k8-automation/compare/0.8.0...0.9.0) - 2018-08-04
 
 ### Changed
 
@@ -275,8 +278,5 @@ Initial release
 
 ### Added
 
--   Google Container Builder CI [#3][3]
--   GKE deployment [#1][1]
-
-[3]: https://github.com/atomist/k8-automation/issues/3
-[1]: https://github.com/atomist/k8-automation/issues/1
+-   Google Container Builder CI [#3](https://github.com/atomist/k8-automation/issues/3)
+-   GKE deployment [#1](https://github.com/atomist/k8-automation/issues/1)

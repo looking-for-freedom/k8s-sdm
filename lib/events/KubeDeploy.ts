@@ -55,7 +55,7 @@ export interface CommitForSdmGoal {
     };
 }
 
-@EventHandler("deploy image to Kubernetes cluster", GraphQL.subscription("sdmGoal"))
+@EventHandler("deploy image to Kubernetes cluster", GraphQL.subscription("SdmGoalSub"))
 @Tags("deploy", "kubernetes")
 export class KubeDeploy implements HandleEvent<SdmGoalSub.Subscription> {
 
