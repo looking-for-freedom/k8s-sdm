@@ -81,6 +81,16 @@ subscription SdmGoalSub {
       name
     }
     approvalRequired
+    preApproval {
+      correlationId
+      registration
+      name
+      version
+      ts
+      userId
+      channelId
+    }
+    preApprovalRequired
     data
   }
 }

@@ -17,7 +17,7 @@
 import * as assert from "power-assert";
 
 import { Success } from "@atomist/automation-client";
-import { SdmGoal } from "@atomist/sdm";
+import { SdmGoalEvent } from "@atomist/sdm";
 
 import {
     CommitForSdmGoal,
@@ -39,7 +39,7 @@ describe("KubeDeploy", () => {
         it("should reject a goal with no fulfillment", () => {
             const g = {
                 state: "requested",
-            } as SdmGoal;
+            } as SdmGoalEvent;
             const r = eligibleDeployGoal(g, c);
             assert(r.code !== 0);
             assert(r.message.startsWith("SDM goal contains no fulfillment"));
@@ -52,7 +52,7 @@ describe("KubeDeploy", () => {
                     method: "side-effect",
                 },
                 state: "requested",
-            } as SdmGoal;
+            } as SdmGoalEvent;
             const r = eligibleDeployGoal(g, c);
             assert(r.code !== 0);
             assert(r.message.startsWith("SDM goal fulfillment name 'Quicksand' is not"));
@@ -65,7 +65,7 @@ describe("KubeDeploy", () => {
                     method: "other",
                 },
                 state: "requested",
-            } as SdmGoal;
+            } as SdmGoalEvent;
             const r = eligibleDeployGoal(g, c);
             assert(r.code !== 0);
             assert(r.message.startsWith("SDM goal fulfillment method 'other' is not"));
@@ -78,7 +78,7 @@ describe("KubeDeploy", () => {
                     method: "side-effect",
                 },
                 state: "skipped",
-            } as SdmGoal;
+            } as SdmGoalEvent;
             const r = eligibleDeployGoal(g, c);
             assert(r.code !== 0);
             assert(r.message === "SDM goal state 'skipped' is not 'requested'");
@@ -91,7 +91,7 @@ describe("KubeDeploy", () => {
                     method: "side-effect",
                 },
                 state: "requested",
-            } as SdmGoal;
+            } as SdmGoalEvent;
             const r = eligibleDeployGoal(g, c);
             assert.deepStrictEqual(r, Success);
         });
@@ -111,7 +111,7 @@ describe("KubeDeploy", () => {
                     ns: "ziggy",
                 },
             };
-            const g = { data: JSON.stringify(d) } as SdmGoal;
+            const g = { data: JSON.stringify(d) } as SdmGoalEvent;
             const ka = validateSdmGoal(g, kd);
             assert.deepStrictEqual(ka, d.kubernetes);
         });
@@ -128,7 +128,7 @@ describe("KubeDeploy", () => {
                     ns: "ziggy",
                 },
             };
-            const g = { data: JSON.stringify(d) } as SdmGoal;
+            const g = { data: JSON.stringify(d) } as SdmGoalEvent;
             const ka = validateSdmGoal(g, kd);
             assert.deepStrictEqual(ka, d.kubernetes);
         });
@@ -146,7 +146,7 @@ describe("KubeDeploy", () => {
                     ns: "ziggy",
                 },
             };
-            const g = { data: JSON.stringify(d) } as SdmGoal;
+            const g = { data: JSON.stringify(d) } as SdmGoalEvent;
             const ka = validateSdmGoal(g, kd);
             assert.deepStrictEqual(ka, d.kubernetes);
         });
@@ -164,7 +164,7 @@ describe("KubeDeploy", () => {
                     ns: "ziggy",
                 },
             };
-            const g = { data: JSON.stringify(d) } as SdmGoal;
+            const g = { data: JSON.stringify(d) } as SdmGoalEvent;
             const ka = validateSdmGoal(g, kd);
             assert(ka === undefined);
         });
@@ -181,7 +181,7 @@ describe("KubeDeploy", () => {
                     ns: "ziggy",
                 },
             };
-            const g = { data: JSON.stringify(d) } as SdmGoal;
+            const g = { data: JSON.stringify(d) } as SdmGoalEvent;
             const ns = process.env.POD_NAMESPACE;
             process.env.POD_NAMESPACE = "ziggy";
             const ka = validateSdmGoal(g, kd);
@@ -205,7 +205,7 @@ describe("KubeDeploy", () => {
                     ns: "ziggy",
                 },
             };
-            const g = { data: JSON.stringify(d) } as SdmGoal;
+            const g = { data: JSON.stringify(d) } as SdmGoalEvent;
             const ns = process.env.POD_NAMESPACE;
             process.env.POD_NAMESPACE = "not-ziggy";
             const ka = validateSdmGoal(g, kd);
@@ -223,7 +223,7 @@ describe("KubeDeploy", () => {
                 mode: "cluster",
                 namespaces: ["left-hand", "made-it-too-far", "special-man", "ziggys-band"],
             } as any as KubeDeploy;
-            const g = {} as SdmGoal;
+            const g = {} as SdmGoalEvent;
             assert.throws(() => validateSdmGoal(g, kd), /SDM goal data property is false, cannot deploy:/);
         });
 
@@ -233,7 +233,7 @@ describe("KubeDeploy", () => {
                 mode: "cluster",
                 namespaces: ["left-hand", "made-it-too-far", "special-man", "ziggys-band"],
             } as any as KubeDeploy;
-            const g = { data: "{not valid json]" } as SdmGoal;
+            const g = { data: "{not valid json]" } as SdmGoalEvent;
             assert.throws(() => validateSdmGoal(g, kd), /Failed to parse SDM goal data/);
         });
 
@@ -243,7 +243,7 @@ describe("KubeDeploy", () => {
                 mode: "cluster",
                 namespaces: ["left-hand", "made-it-too-far", "special-man", "ziggys-band"],
             } as any as KubeDeploy;
-            const g = { data: "{}" } as SdmGoal;
+            const g = { data: "{}" } as SdmGoalEvent;
             assert.throws(() => validateSdmGoal(g, kd),
                 /SDM goal data kubernetes property is false, cannot deploy:/);
         });
@@ -260,7 +260,7 @@ describe("KubeDeploy", () => {
                     ns: "ziggy",
                 },
             };
-            const g = { data: JSON.stringify(d) } as SdmGoal;
+            const g = { data: JSON.stringify(d) } as SdmGoalEvent;
             assert.throws(() => validateSdmGoal(g, kd),
                 /SDM goal data kubernetes name property is false, cannot deploy:/);
         });
@@ -277,7 +277,7 @@ describe("KubeDeploy", () => {
                     ns: "ziggy",
                 },
             };
-            const g = { data: JSON.stringify(d) } as SdmGoal;
+            const g = { data: JSON.stringify(d) } as SdmGoalEvent;
             const ns = process.env.POD_NAMESPACE;
             if (ns) {
                 delete process.env.POD_NAMESPACE;

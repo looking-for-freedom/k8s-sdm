@@ -28,16 +28,12 @@ import {
     Value,
 } from "@atomist/automation-client";
 import {
-    SdmGoal,
-    SdmGoalState,
-} from "@atomist/sdm";
-import {
     fetchCommitForSdmGoal,
-} from "@atomist/sdm/api-helper/goal/fetchGoalsOnCommit";
-import {
+    SdmGoalEvent,
+    SdmGoalState,
     updateGoal,
     UpdateSdmGoalParams,
-} from "@atomist/sdm/api-helper/goal/storeGoals";
+} from "@atomist/sdm";
 import * as stringify from "json-stringify-safe";
 import * as k8 from "kubernetes-client";
 import {
@@ -78,7 +74,7 @@ export class KubeDeploy implements HandleEvent<SdmGoalSub.Subscription> {
     public handle(ev: EventFired<SdmGoalSub.Subscription>, ctx: HandlerContext): Promise<HandlerResult> {
 
         return Promise.all(ev.data.SdmGoal.map(g => {
-            const sdmGoal = g as SdmGoal;
+            const sdmGoal = g as SdmGoalEvent;
             return fetchCommitForSdmGoal(ctx, sdmGoal)
                 .then((commit: CommitForSdmGoal) => {
                     const eligible = eligibleDeployGoal(sdmGoal, commit);
@@ -134,7 +130,7 @@ export class KubeDeploy implements HandleEvent<SdmGoalSub.Subscription> {
                                 description: `Deployed to Kubernetes namespace \`${kubeApp.ns}\``,
                             };
                             if (kubeApp.path && kubeApp.host) {
-                                params.url = endpointBaseUrl(kubeApp);
+                                params.externalUrl = endpointBaseUrl(kubeApp);
                             }
                             return updateGoal(ctx, sdmGoal, params)
                                 .then(() => Success, err => {
@@ -161,7 +157,7 @@ export class KubeDeploy implements HandleEvent<SdmGoalSub.Subscription> {
  * @param g SDM goal event
  * @return Success if eligible, Failure if not, with message properly populated
  */
-export function eligibleDeployGoal(goal: SdmGoal, commit: CommitForSdmGoal): HandlerResult {
+export function eligibleDeployGoal(goal: SdmGoalEvent, commit: CommitForSdmGoal): HandlerResult {
     if (!goal.fulfillment) {
         return { code: 1, message: `SDM goal contains no fulfillment: ${stringify(goal)}` };
     }
@@ -188,7 +184,7 @@ export function eligibleDeployGoal(goal: SdmGoal, commit: CommitForSdmGoal): Han
  * @return valid KubeApplication if something should be deployed,
  *         undefined if nothing should be deployed
  */
-export function validateSdmGoal(sdmGoal: SdmGoal, kd: KubeDeploy): KubeApplication {
+export function validateSdmGoal(sdmGoal: SdmGoalEvent, kd: KubeDeploy): KubeApplication {
     if (!sdmGoal.data) {
         throw new Error(`SDM goal data property is false, cannot deploy: '${stringify(sdmGoal)}'`);
     }
@@ -240,7 +236,7 @@ export function validateSdmGoal(sdmGoal: SdmGoal, kd: KubeDeploy): KubeApplicati
  * @param message informative error message
  * @return a failure handler result using the provided error message
  */
-function failGoal(ctx: HandlerContext, goal: SdmGoal, message: string): Promise<HandlerResult> {
+function failGoal(ctx: HandlerContext, goal: SdmGoalEvent, message: string): Promise<HandlerResult> {
     logger.error(message);
     const params: UpdateSdmGoalParams = {
         state: SdmGoalState.failure,
