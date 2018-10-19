@@ -1,23 +1,22 @@
----
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: k8-automation
+  name: k8-sdm
   labels:
     owner: atomist
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: k8-automation-serviceaccount
-  namespace: k8-automation
+  name: k8-sdm-serviceaccount
+  namespace: k8-sdm
   labels:
     owner: atomist
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: k8-automation-clusterrole
+  name: k8-sdm-clusterrole
   labels:
     owner: atomist
 rules:
@@ -34,44 +33,44 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: k8-automation-clusterrole-binding
+  name: k8-sdm-clusterrole-binding
   labels:
     owner: atomist
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: k8-automation-clusterrole
+  name: k8-sdm-clusterrole
 subjects:
   - kind: ServiceAccount
-    name: k8-automation-serviceaccount
-    namespace: k8-automation
+    name: k8-sdm-serviceaccount
+    namespace: k8-sdm
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: k8-automation
-  namespace: k8-automation
+  name: k8-sdm
+  namespace: k8-sdm
   labels:
-    app: k8-automation
+    app: k8-sdm
     owner: atomist
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: k8-automation
+      app: k8-sdm
       owner: atomist
   template:
     metadata:
       labels:
-        app: k8-automation
+        app: k8-sdm
         owner: atomist
         version: "0"
     spec:
-      serviceAccountName: k8-automation-serviceaccount
+      serviceAccountName: k8-sdm-serviceaccount
       containers:
-        - name: k8-automation
-          image: atomist/k8-automation:0.9.0
+        - name: k8-sdm
+          image: atomist/k8-sdm:0.10.0
           imagePullPolicy: IfNotPresent
           env:
             - name: NODE_ENV

@@ -16,9 +16,7 @@
 
 import {
     EventFired,
-    EventHandler,
     GraphQL,
-    HandleEvent,
     HandlerContext,
     HandlerResult,
     logger,
@@ -28,21 +26,27 @@ import {
     Value,
 } from "@atomist/automation-client";
 import {
+    EventHandler,
+} from "@atomist/automation-client/lib/decorators";
+import {
+    HandleEvent,
+} from "@atomist/automation-client/lib/HandleEvent";
+import {
     fetchCommitForSdmGoal,
     SdmGoalEvent,
     SdmGoalState,
     updateGoal,
     UpdateSdmGoalParams,
 } from "@atomist/sdm";
-import * as stringify from "json-stringify-safe";
-import * as k8 from "kubernetes-client";
 import {
     endpointBaseUrl,
     getKubeConfig,
     KubeApplication,
     KubeApplicationRequest,
     upsertApplication,
-} from "../k8";
+} from "@atomist/sdm-pack-k8";
+import * as stringify from "json-stringify-safe";
+import * as k8 from "kubernetes-client";
 import { SdmGoalSub } from "../typings/types";
 
 export interface CommitForSdmGoal {

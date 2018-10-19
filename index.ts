@@ -14,4 +14,29 @@
  * limitations under the License.
  */
 
-export { KubeApplication } from "./lib/k8";
+import { Configuration } from "@atomist/automation-client";
+import { configureLogzio } from "@atomist/automation-client-ext-logzio";
+import {
+    ConfigureOptions,
+    configureSdm,
+} from "@atomist/sdm-core";
+import { KubeDeploy } from "./lib/events/KubeDeploy";
+import { machine } from "./lib/machine/machine";
+
+const machineOptions: ConfigureOptions = {
+    requiredConfigurationValues: [
+        "environment",
+        "kubernetes.mode",
+        "kubernetes.namespaces",
+    ],
+};
+
+export const configuration: Configuration = {
+    events: [
+        KubeDeploy,
+    ],
+    postProcessors: [
+        configureLogzio,
+        configureSdm(machine, machineOptions),
+    ],
+};

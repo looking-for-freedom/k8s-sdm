@@ -15,27 +15,25 @@
  */
 
 import {
-    CommandHandler,
     Failure,
-    HandleCommand,
-    HandlerContext,
-    HandlerResult,
     logger,
     Parameter,
+    Parameters,
     Success,
-    Tags,
 } from "@atomist/automation-client";
-import * as k8 from "kubernetes-client";
-
+import {
+    CommandHandlerRegistration,
+    slackSuccessMessage,
+} from "@atomist/sdm";
 import {
     deleteApplication,
     getKubeConfig,
     KubeDeleteRequest,
-} from "../k8";
+} from "@atomist/sdm-pack-k8";
+import * as k8 from "kubernetes-client";
 
-@CommandHandler("remove related resources from Kubernetes cluster", `kube undeploy`)
-@Tags("undeploy", "kubernetes")
-export class KubeUndeploy implements HandleCommand {
+@Parameters()
+export class KubeUndeployParameters {
 
     @Parameter({
         displayName: "Name",
@@ -97,13 +95,23 @@ export class KubeUndeploy implements HandleCommand {
     })
     public host: string;
 
-    public handle(ctx: HandlerContext): Promise<HandlerResult> {
+}
+
+/**
+ * Safely remove all resources related to an Kubernetes deployment.
+ */
+export const kubeUndeploy: CommandHandlerRegistration<KubeUndeployParameters> = {
+    name: "KubeUndeploy",
+    intent: "kube undeploy",
+    description: "remove all resources related to an application from Kubernetes cluster",
+    paramsMaker: KubeUndeployParameters,
+    listener: async ci => {
 
         let k8Config: k8.ClusterConfiguration | k8.ClientConfiguration;
         try {
             k8Config = getKubeConfig();
         } catch (e) {
-            return ctx.messageClient.respond(e.message)
+            return ci.context.messageClient.respond(e.message)
                 .then(() => ({ code: Failure.code, message: e.message }), err => {
                     const msg = `Failed to send response message: ${err.message}`;
                     return { code: Failure.code, message: `${e.message}; ${msg}` };
@@ -112,29 +120,29 @@ export class KubeUndeploy implements HandleCommand {
 
         const req: KubeDeleteRequest = {
             config: k8Config,
-            name: this.name,
-            ns: this.ns,
-            path: this.path,
-            host: this.host,
+            name: ci.parameters.name,
+            ns: ci.parameters.ns,
+            path: ci.parameters.path,
+            host: ci.parameters.host,
         };
         return deleteApplication(req)
             .then(() => {
-                const message = `Successfully removed ${this.ns}/${this.name} resources from Kubernetes`;
+                const message = `Successfully removed ${req.ns}/${req.name} resources from Kubernetes`;
                 logger.info(message);
-                return ctx.messageClient.respond(message)
+                return ci.context.messageClient.respond(slackSuccessMessage("Kubernetes Undeploy", message))
                     .then(() => Success, err => {
                         const msg = `Failed to send response message: ${err.message}`;
                         logger.error(msg);
                         return { code: Success.code, message: `${message} but ${msg}` };
                     });
             }, e => {
-                const message = `Failed to remove ${this.ns}/${this.name} resources from Kubernetes: ${e.message}`;
+                const message = `Failed to remove ${req.ns}/${req.name} resources from Kubernetes: ${e.message}`;
                 logger.error(message);
-                return ctx.messageClient.respond(message)
+                return ci.context.messageClient.respond(message)
                     .then(() => ({ code: Failure.code, message }), err => {
                         logger.error(`Failed to send response message: ${err.message}`);
                         return { code: Failure.code, message: `${message}; ${err.message}` };
                     });
             });
-    }
-}
+    },
+};

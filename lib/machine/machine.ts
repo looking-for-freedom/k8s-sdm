@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
-/**
- * Prepend message to (e: Error).message.
- *
- * @param e original Error
- * @param prefix text to prepend to e.message
- * @return e with modified message
- */
-export function preErrMsg(e: Error, prefix: string): Error {
-    e.message = `${prefix}: ${e.message}`;
-    return e;
+import {
+    SoftwareDeliveryMachine,
+    SoftwareDeliveryMachineConfiguration,
+} from "@atomist/sdm";
+import {
+    createSoftwareDeliveryMachine,
+} from "@atomist/sdm-core";
+import {
+    kubeUndeploy,
+} from "../commands/KubeUndeploy";
+
+export function machine(
+    configuration: SoftwareDeliveryMachineConfiguration,
+): SoftwareDeliveryMachine {
+
+    const sdm = createSoftwareDeliveryMachine({
+        name: "In-Cluster Kubernetes Software Delivery Machine",
+        configuration,
+    });
+
+    sdm.addCommand(kubeUndeploy);
+
+    return sdm;
 }
