@@ -22,8 +22,8 @@ import {
     createSoftwareDeliveryMachine,
 } from "@atomist/sdm-core";
 import {
-    kubeUndeploy,
-} from "../commands/KubeUndeploy";
+    kubernetesSupport,
+} from "@atomist/sdm-pack-k8";
 
 export function machine(
     configuration: SoftwareDeliveryMachineConfiguration,
@@ -34,7 +34,7 @@ export function machine(
         configuration,
     });
 
-    sdm.addCommand(kubeUndeploy);
+    sdm.addExtensionPacks(kubernetesSupport());
 
     return sdm;
 }

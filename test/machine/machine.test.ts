@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-import { Configuration } from "@atomist/automation-client";
-import { configureLogzio } from "@atomist/automation-client-ext-logzio";
+import * as assert from "power-assert";
 import {
-    ConfigureOptions,
-    configureSdm,
-} from "@atomist/sdm-core";
-import { machine } from "./lib/machine/machine";
+    machine,
+} from "../../lib/machine/machine";
 
-const machineOptions: ConfigureOptions = {
-    requiredConfigurationValues: [
-        "environment",
-        "kubernetes.mode",
-        "kubernetes.namespaces",
-    ],
-};
+describe("machine", () => {
 
-export const configuration: Configuration = {
-    postProcessors: [
-        configureLogzio,
-        configureSdm(machine, machineOptions),
-    ],
-};
+    it("should create a k8 SDM", () => {
+        const sdm = machine({ name: "k8-sdm-test" } as any);
+        assert(sdm);
+        assert(sdm.extensionPacks.some(p => p.name === "@atomist/sdm-pack-k8"));
+    });
+
+});
