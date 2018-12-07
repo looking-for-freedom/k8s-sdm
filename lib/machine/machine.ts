@@ -33,13 +33,11 @@ import {
     DefaultDockerImageNameCreator,
     DockerBuild,
     DockerOptions,
-    HasDockerfile,
 } from "@atomist/sdm-pack-docker";
 import {
     kubernetesSupport,
 } from "@atomist/sdm-pack-k8";
 import {
-    IsNode,
     nodeBuilder,
     NodeModulesProjectListener,
     NodeProjectCreationParametersDefinition,
@@ -47,6 +45,9 @@ import {
     UpdatePackageJsonIdentification,
     UpdateReadmeTitle,
 } from "@atomist/sdm-pack-node";
+import {
+    IsMe,
+} from "./pushTest";
 
 export function machine(
     configuration: SoftwareDeliveryMachineConfiguration,
@@ -60,17 +61,15 @@ export function machine(
     const version = new Version().with({
         name: "npm-versioner",
         versioner: NodeProjectVersioner,
-        pushTest: IsNode,
+        pushTest: IsMe,
     });
+
     const build = new Build().with({
         name: "npm-run-build",
         builder: nodeBuilder("npm run compile", "npm test"),
-        pushTest: IsNode,
+        pushTest: IsMe,
     })
         .withProjectListener(NodeModulesProjectListener);
-    const buildGoals = goals("build")
-        .plan(version)
-        .plan(build).after(version);
 
     const dockerBuildOptions: DockerOptions = { push: false };
     if (!isInLocalMode() && sdm.configuration.sdm && sdm.configuration.sdm.docker) {
@@ -86,14 +85,16 @@ export function machine(
         name: "npm-docker-build",
         imageNameCreator: DefaultDockerImageNameCreator,
         options: dockerBuildOptions,
-        pushTest: IsNode,
+        pushTest: IsMe,
     });
-    const dockerGoals = goals("docker")
-        .plan(dockerBuild).after(buildGoals);
+
+    const dockerBuildGoals = goals("docker build")
+        .plan(version)
+        .plan(build).after(version)
+        .plan(dockerBuild).after(build);
 
     sdm.withPushRules(
-        whenPushSatisfies(IsNode).setGoals(buildGoals),
-        whenPushSatisfies(HasDockerfile).setGoals(dockerGoals),
+        whenPushSatisfies(IsMe).setGoals(dockerBuildGoals),
     );
 
     sdm.addExtensionPacks(kubernetesSupport());

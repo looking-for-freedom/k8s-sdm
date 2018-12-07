@@ -32,7 +32,9 @@
     "@atomist/sdm-pack-build": "^1.0.1",
     "@atomist/sdm-pack-docker": "^1.0.1",
     "@atomist/sdm-pack-k8": "1.0.2-master.20181129204753",
-    "@atomist/sdm-pack-node": "^1.0.1"
+    "@atomist/sdm-pack-node": "^1.0.1",
+    "@types/read-pkg-up": "^3.0.1",
+    "read-pkg-up": "^4.0.0"
   },
   "devDependencies": {
     "@atomist/sdm-local": "1.0.3-master.20181204014008",
