@@ -25,14 +25,12 @@ import {
 } from "@atomist/sdm";
 import {
     createSoftwareDeliveryMachine,
-    isInLocalMode,
     Version,
 } from "@atomist/sdm-core";
 import { Build } from "@atomist/sdm-pack-build";
 import {
     DefaultDockerImageNameCreator,
     DockerBuild,
-    DockerOptions,
 } from "@atomist/sdm-pack-docker";
 import {
     kubernetesSupport,
@@ -45,6 +43,9 @@ import {
     UpdatePackageJsonIdentification,
     UpdateReadmeTitle,
 } from "@atomist/sdm-pack-node";
+import {
+    dockerOptions,
+} from "./docker";
 import {
     IsMe,
 } from "./pushTest";
@@ -71,20 +72,10 @@ export function machine(
     })
         .withProjectListener(NodeModulesProjectListener);
 
-    const dockerBuildOptions: DockerOptions = { push: false };
-    if (!isInLocalMode() && sdm.configuration.sdm && sdm.configuration.sdm.docker) {
-        const d = sdm.configuration.sdm.docker;
-        if (d.registry && d.user && d.password) {
-            dockerBuildOptions.push = true;
-            dockerBuildOptions.registry = d.registry;
-            dockerBuildOptions.user = d.user;
-            dockerBuildOptions.password = d.password;
-        }
-    }
     const dockerBuild = new DockerBuild().with({
         name: "npm-docker-build",
         imageNameCreator: DefaultDockerImageNameCreator,
-        options: dockerBuildOptions,
+        options: dockerOptions(sdm),
         pushTest: IsMe,
     });
 
