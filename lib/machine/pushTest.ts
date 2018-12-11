@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-import {
-    logger,
-} from "@atomist/automation-client";
-import {
-    predicatePushTest,
-} from "@atomist/sdm";
+import { logger } from "@atomist/automation-client";
+import { predicatePushTest } from "@atomist/sdm";
 import * as readPkgUp from "read-pkg-up";
 
 /** True if the project receiving the push is this project. */

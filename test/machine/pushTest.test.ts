@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-import {
-    InMemoryProject,
-} from "@atomist/automation-client";
+import { InMemoryProject } from "@atomist/automation-client";
 import * as assert from "power-assert";
 import * as readPkgUp from "read-pkg-up";
-import {
-    IsMe,
-} from "../../lib/machine/pushTest";
+import { IsMe } from "../../lib/machine/pushTest";
 
 describe("pushTest", () => {
 

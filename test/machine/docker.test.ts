@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-import {
-    SoftwareDeliveryMachine,
-} from "@atomist/sdm";
+import { SoftwareDeliveryMachine } from "@atomist/sdm";
 import * as assert from "power-assert";
 import * as readPkgUp from "read-pkg-up";
-import {
-    dockerOptions,
-} from "../../lib/machine/docker";
+import { dockerOptions } from "../../lib/machine/docker";
 
 describe("docker", () => {
 

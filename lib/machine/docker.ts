@@ -14,15 +14,9 @@
  * limitations under the License.
  */
 
-import {
-    logger,
-} from "@atomist/automation-client";
-import {
-    SoftwareDeliveryMachine,
-} from "@atomist/sdm";
-import {
-    DockerOptions,
-} from "@atomist/sdm-pack-docker";
+import { logger } from "@atomist/automation-client";
+import { SoftwareDeliveryMachine } from "@atomist/sdm";
+import { DockerOptions } from "@atomist/sdm-pack-docker";
 import * as readPkgUp from "read-pkg-up";
 
 /**

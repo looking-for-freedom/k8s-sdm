@@ -20,6 +20,7 @@ import {
     ConfigureOptions,
     configureSdm,
 } from "@atomist/sdm-core";
+import { checkConfiguration } from "./lib/machine/config";
 import { machine } from "./lib/machine/machine";
 
 const machineOptions: ConfigureOptions = {
@@ -30,6 +31,7 @@ const machineOptions: ConfigureOptions = {
 
 export const configuration: Configuration = {
     postProcessors: [
+        checkConfiguration,
         configureLogzio,
         configureSdm(machine, machineOptions),
     ],
