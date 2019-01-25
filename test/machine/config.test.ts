@@ -61,6 +61,19 @@ describe("config", () => {
 
     describe("canDeploy", () => {
 
+        let atmMode: string;
+        before(() => {
+            if (process.env.ATOMIST_MODE) {
+                atmMode = process.env.ATOMIST_MODE;
+                delete process.env.ATOMIST_MODE;
+            }
+        });
+        after(() => {
+            if (atmMode) {
+                process.env.ATOMIST_MODE = atmMode;
+            }
+        });
+
         it("should return false if no config", () => {
             assert(!canDeploy(undefined));
         });
