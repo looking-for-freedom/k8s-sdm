@@ -22,9 +22,9 @@ import {
 describe("machine", () => {
 
     it("should create a k8 SDM", () => {
-        const sdm = machine({ name: "k8-sdm-test" } as any);
+        const sdm = machine({ name: "k8s-sdm-test" } as any);
         assert(sdm);
-        assert(sdm.extensionPacks.some(p => p.name === "@atomist/sdm-pack-k8"));
+        assert(sdm.extensionPacks.some(p => p.name === "@atomist/sdm-pack-k8s"));
     });
 
 });

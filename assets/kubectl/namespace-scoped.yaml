@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: k8-sdm-serviceaccount
+  name: sdm-serviceaccount
   labels:
     owner: atomist
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 metadata:
-  name: k8-sdm-role
+  name: sdm-role
   labels:
     owner: atomist
 rules:
@@ -25,16 +25,16 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
-  name: k8-sdm-role-binding
+  name: sdm-role-binding
   labels:
     owner: atomist
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: k8-sdm-role
+  name: sdm-role
 subjects:
   - kind: ServiceAccount
-    name: k8-sdm-serviceaccount
+    name: sdm-serviceaccount
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
@@ -57,10 +57,10 @@ spec:
         owner: atomist
         version: "0"
     spec:
-      serviceAccountName: k8-sdm-serviceaccount
+      serviceAccountName: sdm-serviceaccount
       containers:
         - name: k8-sdm
-          image: atomist/k8-sdm:0.10.0
+          image: atomist/k8-sdm:1.0.0
           imagePullPolicy: IfNotPresent
           env:
             - name: NODE_ENV

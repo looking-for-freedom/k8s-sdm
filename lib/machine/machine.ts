@@ -15,9 +15,6 @@
  */
 
 import {
-    GitHubRepoRef,
-} from "@atomist/automation-client";
-import {
     goals,
     SoftwareDeliveryMachine,
     SoftwareDeliveryMachineConfiguration,
@@ -33,26 +30,19 @@ import {
     DockerBuild,
 } from "@atomist/sdm-pack-docker";
 import {
-    kubernetesSupport,
-} from "@atomist/sdm-pack-k8";
+    k8sSupport,
+    KubernetesDeploy,
+} from "@atomist/sdm-pack-k8s";
 import {
     nodeBuilder,
     NodeModulesProjectListener,
-    NodeProjectCreationParametersDefinition,
     NodeProjectVersioner,
-    UpdatePackageJsonIdentification,
-    UpdateReadmeTitle,
 } from "@atomist/sdm-pack-node";
-import {
-    dockerOptions,
-} from "./docker";
-import {
-    IsMe,
-} from "./pushTest";
+import { canDeploy } from "./config";
+import { dockerOptions } from "./docker";
+import { IsMe } from "./pushTest";
 
-export function machine(
-    configuration: SoftwareDeliveryMachineConfiguration,
-): SoftwareDeliveryMachine {
+export function machine(configuration: SoftwareDeliveryMachineConfiguration): SoftwareDeliveryMachine {
 
     const sdm = createSoftwareDeliveryMachine({
         name: "Kubernetes Software Delivery Machine",
@@ -67,7 +57,10 @@ export function machine(
 
     const build = new Build().with({
         name: "npm-run-build",
-        builder: nodeBuilder("npm run compile", "npm test"),
+        builder: nodeBuilder(
+            { command: "npm", args: ["run", "compile"] },
+            { command: "npm", args: ["test"] },
+        ),
         pushTest: IsMe,
     })
         .withProjectListener(NodeModulesProjectListener);
@@ -79,27 +72,22 @@ export function machine(
         pushTest: IsMe,
     });
 
+    const deploy = new KubernetesDeploy({ environment: configuration.environment });
+
     const dockerBuildGoals = goals("docker build")
         .plan(version)
         .plan(build).after(version)
         .plan(dockerBuild).after(build);
 
-    sdm.withPushRules(
-        whenPushSatisfies(IsMe).setGoals(dockerBuildGoals),
-    );
+    const deployGoals = goals("docker build and deploy")
+        .plan(dockerBuildGoals)
+        .plan(deploy).after(dockerBuildGoals);
 
-    sdm.addExtensionPacks(kubernetesSupport());
+    const meGoals = (canDeploy(configuration)) ? deployGoals : dockerBuildGoals;
 
-    sdm.addGeneratorCommand({
-        name: "k8-sdm-generator",
-        startingPoint: new GitHubRepoRef("atomist", "k8-sdm"),
-        intent: "create k8-sdm",
-        parameters: NodeProjectCreationParametersDefinition,
-        transform: [
-            UpdatePackageJsonIdentification,
-            UpdateReadmeTitle,
-        ],
-    });
+    sdm.withPushRules(whenPushSatisfies(IsMe).setGoals(meGoals));
+
+    sdm.addExtensionPacks(k8sSupport());
 
     return sdm;
 }

@@ -22,8 +22,17 @@ import {
     getUserConfig,
     writeUserConfig,
 } from "@atomist/automation-client/lib/configuration";
+import { SoftwareDeliveryMachineConfiguration } from "@atomist/sdm";
 import { isInLocalMode } from "@atomist/sdm-core";
+import * as k8s from "@kubernetes/client-node";
 import * as inquirer from "inquirer";
+
+/**
+ * Test if configuration contains a valid Docker push configuration.
+ */
+export function canDockerPush(c: Configuration): boolean {
+    return c && c.sdm && c.sdm.docker && c.sdm.docker.registry && c.sdm.docker.user && c.sdm.docker.password;
+}
 
 /**
  * When in local mode, prompt for Docker options if they are not all
@@ -34,8 +43,7 @@ export async function checkConfiguration(c: Configuration): Promise<Configuratio
         // only prompt in local mode
         return c;
     }
-    if (c.sdm && c.sdm.docker && c.sdm.docker.registry && c.sdm.docker.user && c.sdm.docker.password) {
-        // all set
+    if (canDockerPush(c)) {
         return c;
     }
     if (c.sdm && c.sdm.docker && c.sdm.docker.prompt === false) {
@@ -123,4 +131,34 @@ export async function checkConfiguration(c: Configuration): Promise<Configuratio
         logger.error(`Failed to acquire Docker configuration values: ${e.message}`);
     }
     return c;
+}
+
+/**
+ * See if the configuration has enough information to deploy.  To be
+ * able to deploy, one of the following scenarios must be true:
+ *
+ * -    Running in local mode and the current Kubernetes config context is "minikube"
+ * -    The configuration must contain a valid API key, a workspace ID, and
+ *      Docker registry configuration.
+ *
+ * @param c SDM configuration
+ * @return `true` if this SDM is cablable of deploying to Kubernetes, `false` otherwise
+ */
+export function canDeploy(c: SoftwareDeliveryMachineConfiguration): boolean {
+    if (isInLocalMode()) {
+        try {
+            const kc = new k8s.KubeConfig();
+            kc.loadFromDefault();
+            if (kc.currentContext === "minikube") {
+                return true;
+            }
+        } catch (e) {
+            logger.info(`Failed to load default Kubernetes config: ${e.message}`);
+        }
+    }
+    if (c && c.apiKey && /^[A-F0-9]+$/.test(c.apiKey) && c.workspaceIds && c.workspaceIds.length > 0 &&
+        !(c.workspaceIds.length === 1 && c.workspaceIds[0] === "local") && canDockerPush(c)) {
+        return true;
+    }
+    return false;
 }

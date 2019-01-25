@@ -2,16 +2,11 @@
   "spec": {
     "template": {
       "spec": {
-        "serviceAccountName": "k8-automation-serviceaccount",
         "containers": [
           {
             "env": [
               {
-                "name": "NODE_ENV",
-                "value": "production"
-              },
-              {
-                "name": "POD_NAMESPACE",
+                "name": "ATOMIST_POD_NAMESPACE",
                 "valueFrom": {
                   "fieldRef": {
                     "fieldPath": "metadata.namespace"
@@ -19,8 +14,12 @@
                 }
               },
               {
+                "name": "ATOMIST_GOAL_LAUNCHER",
+                "value": "kubernetes"
+              },
+              {
                 "name": "ATOMIST_CONFIG_PATH",
-                "value": "/opt/atm/atomist-config.json"
+                "value": "/opt/atm/client.config.json"
               }
             ],
             "livenessProbe": {
@@ -70,7 +69,8 @@
           {
             "name": "automation",
             "secret": {
-              "secretName": "automation"
+              "secretName": "automation",
+              "defaultMode": 256
             }
           }
         ],
