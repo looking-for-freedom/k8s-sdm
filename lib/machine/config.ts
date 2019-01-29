@@ -135,17 +135,26 @@ export async function checkConfiguration(c: Configuration): Promise<Configuratio
 
 /**
  * See if the configuration has enough information to deploy.  To be
- * able to deploy, one of the following scenarios must be true:
+ * able to deploy, you must have a valid API key and workspace ID in
+ * your configuration _and_ one of the following scenarios must be
+ * true:
  *
- * -    Running in local mode and the current Kubernetes config context is "minikube"
- * -    The configuration must contain a valid API key, a workspace ID, and
- *      Docker registry configuration.
+ * -    The configuration must contain a valid Docker registry
+ *      configuration.
+ * -    Running in local mode and the current Kubernetes config context
+ *      is "minikube".
  *
  * @param c SDM configuration
  * @return `true` if this SDM is cablable of deploying to Kubernetes, `false` otherwise
  */
 export function canDeploy(c: SoftwareDeliveryMachineConfiguration): boolean {
-    if (isInLocalMode()) {
+    if (!c || !c.apiKey || !/^[A-F0-9]+$/.test(c.apiKey) ||
+        !c.workspaceIds || c.workspaceIds.length < 1 || c.workspaceIds.every(w => w === "local")) {
+        return false;
+    }
+    if (canDockerPush(c)) {
+        return true;
+    } else if (isInLocalMode()) {
         try {
             const kc = new k8s.KubeConfig();
             kc.loadFromDefault();
@@ -155,10 +164,6 @@ export function canDeploy(c: SoftwareDeliveryMachineConfiguration): boolean {
         } catch (e) {
             logger.info(`Failed to load default Kubernetes config: ${e.message}`);
         }
-    }
-    if (c && c.apiKey && /^[A-F0-9]+$/.test(c.apiKey) && c.workspaceIds && c.workspaceIds.length > 0 &&
-        !(c.workspaceIds.length === 1 && c.workspaceIds[0] === "local") && canDockerPush(c)) {
-        return true;
     }
     return false;
 }
