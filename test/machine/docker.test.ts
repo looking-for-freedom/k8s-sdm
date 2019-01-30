@@ -58,10 +58,12 @@ describe("docker", () => {
             const s: SoftwareDeliveryMachine = {
                 configuration: {
                     sdm: {
-                        docker: {
-                            password: "you",
-                            registry: "us",
-                            user: "me",
+                        build: {
+                            docker: {
+                                password: "you",
+                                registry: "us",
+                                user: "me",
+                            },
                         },
                     },
                 },
@@ -80,9 +82,11 @@ describe("docker", () => {
             const s: SoftwareDeliveryMachine = {
                 configuration: {
                     sdm: {
-                        docker: {
-                            password: "you",
-                            user: "me",
+                        build: {
+                            docker: {
+                                password: "you",
+                                user: "me",
+                            },
                         },
                     },
                 },

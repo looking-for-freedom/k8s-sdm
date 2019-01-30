@@ -12,14 +12,6 @@
                     "fieldPath": "metadata.namespace"
                   }
                 }
-              },
-              {
-                "name": "ATOMIST_GOAL_LAUNCHER",
-                "value": "kubernetes"
-              },
-              {
-                "name": "ATOMIST_CONFIG_PATH",
-                "value": "/opt/atm/client.config.json"
               }
             ],
             "livenessProbe": {
@@ -55,22 +47,6 @@
                 "cpu": "100m",
                 "memory": "256Mi"
               }
-            },
-            "volumeMounts": [
-              {
-                "name": "automation",
-                "mountPath": "/opt/atm",
-                "readOnly": true
-              }
-            ]
-          }
-        ],
-        "volumes": [
-          {
-            "name": "automation",
-            "secret": {
-              "secretName": "automation",
-              "defaultMode": 256
             }
           }
         ],

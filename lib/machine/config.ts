@@ -46,24 +46,27 @@ export async function checkConfiguration(c: Configuration): Promise<Configuratio
     if (canDockerPush(c)) {
         return c;
     }
-    if (c.sdm && c.sdm.docker && c.sdm.docker.prompt === false) {
+    if (c.sdm && c.sdm.build && c.sdm.build.docker && c.sdm.build.docker.prompt === false) {
         return c;
     }
     if (!c.sdm) {
         c.sdm = {};
     }
-    if (!c.sdm.docker) {
-        c.sdm.docker = {};
+    if (!c.sdm.build) {
+        c.sdm.build = {};
     }
-    if (c.sdm.docker.prompt !== false) {
-        c.sdm.docker.prompt = true;
+    if (!c.sdm.build.docker) {
+        c.sdm.build.docker = {};
+    }
+    if (c.sdm.build.docker.prompt !== false) {
+        c.sdm.build.docker.prompt = true;
     }
     const questions: inquirer.Question[] = [
         {
             type: "confirm",
             name: "prompt",
             message: "Configure Docker Registry?",
-            default: c.sdm.docker.prompt,
+            default: c.sdm.build.docker.prompt,
         },
         {
             type: "input",
@@ -75,7 +78,7 @@ export async function checkConfiguration(c: Configuration): Promise<Configuratio
                 }
                 return true;
             },
-            default: c.sdm.docker.registry,
+            default: c.sdm.build.docker.registry,
             when: a => a.prompt,
         },
         {
@@ -88,7 +91,7 @@ export async function checkConfiguration(c: Configuration): Promise<Configuratio
                 }
                 return true;
             },
-            default: c.sdm.docker.user,
+            default: c.sdm.build.docker.user,
             when: a => a.prompt,
         },
         {
@@ -102,16 +105,16 @@ export async function checkConfiguration(c: Configuration): Promise<Configuratio
                 }
                 return true;
             },
-            default: c.sdm.docker.password,
+            default: c.sdm.build.docker.password,
             when: a => a.prompt,
         },
     ];
     try {
         const answers = await inquirer.prompt(questions);
-        c.sdm.docker.prompt = answers.prompt;
-        c.sdm.docker.registry = answers.registry;
-        c.sdm.docker.user = answers.user;
-        c.sdm.docker.password = answers.password;
+        c.sdm.build.docker.prompt = answers.prompt;
+        c.sdm.build.docker.registry = answers.registry;
+        c.sdm.build.docker.user = answers.user;
+        c.sdm.build.docker.password = answers.password;
         let userConfig = getUserConfig();
         if (!userConfig) {
             userConfig = {};
@@ -119,13 +122,13 @@ export async function checkConfiguration(c: Configuration): Promise<Configuratio
         if (!userConfig.sdm) {
             userConfig.sdm = {};
         }
-        if (!userConfig.sdm.docker) {
-            userConfig.sdm.docker = {};
+        if (!userConfig.sdm.build.docker) {
+            userConfig.sdm.build.docker = {};
         }
-        userConfig.sdm.docker.prompt = answers.prompt;
-        userConfig.sdm.docker.registry = answers.registry;
-        userConfig.sdm.docker.user = answers.user;
-        userConfig.sdm.docker.password = answers.password;
+        userConfig.sdm.build.docker.prompt = answers.prompt;
+        userConfig.sdm.build.docker.registry = answers.registry;
+        userConfig.sdm.build.docker.user = answers.user;
+        userConfig.sdm.build.docker.password = answers.password;
         await writeUserConfig(userConfig);
     } catch (e) {
         logger.error(`Failed to acquire Docker configuration values: ${e.message}`);
@@ -154,16 +157,24 @@ export function canDeploy(c: SoftwareDeliveryMachineConfiguration): boolean {
     }
     if (canDockerPush(c)) {
         return true;
-    } else if (isInLocalMode()) {
-        try {
-            const kc = new k8s.KubeConfig();
-            kc.loadFromDefault();
-            if (kc.currentContext === "minikube") {
-                return true;
-            }
-        } catch (e) {
-            logger.info(`Failed to load default Kubernetes config: ${e.message}`);
-        }
+    } else if (isInLocalMode() && kubeConfigContext() === "minikube") {
+        return true;
     }
     return false;
+}
+
+/**
+ * Get  current  context  from   Kubernetes  config.   It  may  return
+ * `undefined` if there is no current context or there is a failure to
+ * load the config.
+ */
+export function kubeConfigContext(): string | undefined {
+    try {
+        const kc = new k8s.KubeConfig();
+        kc.loadFromDefault();
+        return kc.currentContext;
+    } catch (e) {
+        logger.info(`Failed to load default Kubernetes config: ${e.message}`);
+        return undefined;
+    }
 }
