@@ -37,6 +37,8 @@ import {
     nodeBuilder,
     NodeModulesProjectListener,
     NodeProjectVersioner,
+    NpmCompileProjectListener,
+    NpmVersionProjectListener,
 } from "@atomist/sdm-pack-node";
 import { canDeploy } from "./config";
 import { selfDeployAppData } from "./data";
@@ -71,7 +73,10 @@ export function machine(configuration: SoftwareDeliveryMachineConfiguration): So
         imageNameCreator: DefaultDockerImageNameCreator,
         options: dockerOptions(sdm),
         pushTest: IsMe,
-    });
+    })
+        .withProjectListener(NodeModulesProjectListener)
+        .withProjectListener(NpmVersionProjectListener)
+        .withProjectListener(NpmCompileProjectListener);
 
     const deploy = new KubernetesDeploy({ environment: configuration.environment })
         .with({
