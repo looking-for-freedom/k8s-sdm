@@ -36,11 +36,12 @@
     "@atomist/slack-messages": "^1.1.0",
     "@kubernetes/client-node": "^0.7.2",
     "@types/inquirer": "0.0.43",
-    "@types/json-stringify-safe": "^5.0.0",
+    "@types/lodash": "^4.14.120",
     "@types/read-pkg-up": "^3.0.1",
     "inquirer": "^6.2.1",
-    "json-stringify-safe": "^5.0.1",
-    "read-pkg-up": "^4.0.0"
+    "lodash": "^4.17.11",
+    "read-pkg-up": "^4.0.0",
+    "ts-essentials": "^1.0.4"
   },
   "devDependencies": {
     "@atomist/sdm-local": "1.0.5-master.20190121144327",

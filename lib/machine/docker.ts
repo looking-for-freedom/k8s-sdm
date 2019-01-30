@@ -20,15 +20,21 @@ import { DockerOptions } from "@atomist/sdm-pack-docker";
 import * as readPkgUp from "read-pkg-up";
 
 /**
- * Generate docker options from the SDM configuration.  Must be a sync
- * function since the `machine()` function is sync.
+ * Generate docker options from the SDM configuration.  It looks in
+ * the SDM configuration, specifically under
+ * `sdm.configuration.sdm.build.docker` for the "push", "registry",
+ * "user", and "password" properties.  Must be a sync function since
+ * the `machine()` function is sync.
+ *
+ * @param sdm The current SDM
+ * @return Docker registry information
  */
 export function dockerOptions(sdm: SoftwareDeliveryMachine): DockerOptions {
     const options: DockerOptions = { push: false };
-    if (sdm.configuration.sdm && sdm.configuration.sdm.docker) {
-        options.registry = sdm.configuration.sdm.docker.registry;
-        options.user = sdm.configuration.sdm.docker.user;
-        options.password = sdm.configuration.sdm.docker.password;
+    if (sdm.configuration.sdm && sdm.configuration.sdm.build && sdm.configuration.sdm.build.docker) {
+        options.registry = sdm.configuration.sdm.build.docker.registry;
+        options.user = sdm.configuration.sdm.build.docker.user;
+        options.password = sdm.configuration.sdm.build.docker.password;
     }
     if (!options.registry) {
         // try to get Docker Hub owner from package scope

@@ -39,7 +39,7 @@ import {
     NodeProjectVersioner,
 } from "@atomist/sdm-pack-node";
 import { canDeploy } from "./config";
-import { addSecret } from "./data";
+import { selfDeployAppData } from "./data";
 import { dockerOptions } from "./docker";
 import { IsMe } from "./pushTest";
 
@@ -76,7 +76,7 @@ export function machine(configuration: SoftwareDeliveryMachineConfiguration): So
     const deploy = new KubernetesDeploy({ environment: configuration.environment })
         .with({
             name: "sdm-kubernetes-deployment",
-            applicationData: addSecret,
+            applicationData: selfDeployAppData,
         });
 
     const dockerBuildGoals = goals("docker build")
