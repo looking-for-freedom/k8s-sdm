@@ -37,24 +37,28 @@ describe("config", () => {
             assert(!canDockerPush({ sdm: {} }));
         });
 
+        it("should return false if empty build", () => {
+            assert(!canDockerPush({ sdm: { build: {} } }));
+        });
+
         it("should return false if empty docker", () => {
-            assert(!canDockerPush({ sdm: { docker: {} } }));
+            assert(!canDockerPush({ sdm: { build: { docker: {} } } }));
         });
 
         it("should return false if no registry", () => {
-            assert(!canDockerPush({ sdm: { docker: { user: "neil", password: "young" } } }));
+            assert(!canDockerPush({ sdm: { build: { docker: { user: "neil", password: "young" } } } }));
         });
 
         it("should return false if no user", () => {
-            assert(!canDockerPush({ sdm: { docker: { registry: "songs-for-judy", password: "young" } } }));
+            assert(!canDockerPush({ sdm: { build: { docker: { registry: "songs-for-judy", password: "young" } } } }));
         });
 
         it("should return false if no password", () => {
-            assert(!canDockerPush({ sdm: { docker: { registry: "songs-for-judy", user: "neil" } } }));
+            assert(!canDockerPush({ sdm: { build: { docker: { registry: "songs-for-judy", user: "neil" } } } }));
         });
 
         it("should return true if complete", () => {
-            assert(canDockerPush({ sdm: { docker: { registry: "songs-for-judy", user: "neil", password: "young" } } }));
+            assert(canDockerPush({ sdm: { build: { docker: { registry: "songs-for-judy", user: "neil", password: "young" } } } }));
         });
 
     });
@@ -87,10 +91,12 @@ describe("config", () => {
             const c: SoftwareDeliveryMachineConfiguration = {
                 workspaceIds: ["A1234546"],
                 sdm: {
-                    docker: {
-                        registry: "songs-for-judy",
-                        user: "neil",
-                        password: "young",
+                    build: {
+                        docker: {
+                            registry: "songs-for-judy",
+                            user: "neil",
+                            password: "young",
+                        },
                     },
                 },
             } as any;
@@ -101,10 +107,12 @@ describe("config", () => {
             const c: SoftwareDeliveryMachineConfiguration = {
                 apiKey: "0123456789ABCDEF0123456789ABCDEF",
                 sdm: {
-                    docker: {
-                        registry: "songs-for-judy",
-                        user: "neil",
-                        password: "young",
+                    build: {
+                        docker: {
+                            registry: "songs-for-judy",
+                            user: "neil",
+                            password: "young",
+                        },
                     },
                 },
             } as any;
@@ -135,9 +143,11 @@ describe("config", () => {
                 apiKey: "0123456789ABCDEF0123456789ABCDEF",
                 workspaceIds: ["A1234546"],
                 sdm: {
-                    docker: {
-                        user: "neil",
-                        password: "young",
+                    build: {
+                        docker: {
+                            user: "neil",
+                            password: "young",
+                        },
                     },
                 },
             } as any;
@@ -149,9 +159,11 @@ describe("config", () => {
                 apiKey: "0123456789ABCDEF0123456789ABCDEF",
                 workspaceIds: ["A1234546"],
                 sdm: {
-                    docker: {
-                        registry: "songs-for-judy",
-                        password: "young",
+                    build: {
+                        docker: {
+                            registry: "songs-for-judy",
+                            password: "young",
+                        },
                     },
                 },
             } as any;
@@ -163,9 +175,11 @@ describe("config", () => {
                 apiKey: "0123456789ABCDEF0123456789ABCDEF",
                 workspaceIds: ["A1234546"],
                 sdm: {
-                    docker: {
-                        registry: "songs-for-judy",
-                        user: "neil",
+                    build: {
+                        docker: {
+                            registry: "songs-for-judy",
+                            user: "neil",
+                        },
                     },
                 },
             } as any;
@@ -177,10 +191,12 @@ describe("config", () => {
                 apiKey: "0123456789ABCDEF0123456789ABCDEF",
                 workspaceIds: ["A1234546"],
                 sdm: {
-                    docker: {
-                        registry: "songs-for-judy",
-                        user: "neil",
-                        password: "young",
+                    build: {
+                        docker: {
+                            registry: "songs-for-judy",
+                            user: "neil",
+                            password: "young",
+                        },
                     },
                 },
             } as any;
@@ -192,10 +208,12 @@ describe("config", () => {
                 apiKey: "7db45d78-ef47-46d0-8199-dfd30fef7ad4",
                 workspaceIds: ["A1234546"],
                 sdm: {
-                    docker: {
-                        registry: "songs-for-judy",
-                        user: "neil",
-                        password: "young",
+                    build: {
+                        docker: {
+                            registry: "songs-for-judy",
+                            user: "neil",
+                            password: "young",
+                        },
                     },
                 },
             } as any;
@@ -207,10 +225,12 @@ describe("config", () => {
                 apiKey: "0123456789ABCDEF0123456789ABCDEF",
                 workspaceIds: ["local"],
                 sdm: {
-                    docker: {
-                        registry: "songs-for-judy",
-                        user: "neil",
-                        password: "young",
+                    build: {
+                        docker: {
+                            registry: "songs-for-judy",
+                            user: "neil",
+                            password: "young",
+                        },
                     },
                 },
             } as any;
