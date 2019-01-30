@@ -167,6 +167,7 @@ export function annotateIngress(app: KubernetesApplication, context: string): Ku
             annotations: {
                 "kubernetes.io/ingress.class": "nginx",
                 "nginx.ingress.kubernetes.io/rewrite-target": "/",
+                "nginx.ingress.kubernetes.io/ssl-redirect": "false",
             },
         },
     };
