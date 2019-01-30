@@ -31,7 +31,8 @@ import * as inquirer from "inquirer";
  * Test if configuration contains a valid Docker push configuration.
  */
 export function canDockerPush(c: Configuration): boolean {
-    return c && c.sdm && c.sdm.docker && c.sdm.docker.registry && c.sdm.docker.user && c.sdm.docker.password;
+    return c && c.sdm && c.sdm.build && c.sdm.build.docker && c.sdm.build.docker.registry &&
+        c.sdm.build.docker.user && c.sdm.build.docker.password;
 }
 
 /**
