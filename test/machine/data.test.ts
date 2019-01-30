@@ -411,20 +411,6 @@ describe("data", () => {
 
     describe("selfDeployAppData", () => {
 
-        let atmMode: string;
-        before(() => {
-            if (process.env.ATOMIST_MODE) {
-                atmMode = process.env.ATOMIST_MODE;
-            }
-            process.env.ATOMIST_MODE = "local";
-        });
-        after(() => {
-            if (atmMode) {
-                process.env.ATOMIST_MODE = atmMode;
-            } else {
-                delete process.env.ATOMIST_MODE;
-            }
-        });
         it("should make ready the deployment", async () => {
             const a: any = {
                 environment: "amherst",

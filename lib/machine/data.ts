@@ -19,7 +19,6 @@ import {
     GitProject,
     logger,
 } from "@atomist/automation-client";
-import { isInLocalMode } from "@atomist/sdm-core";
 import {
     encodeSecret,
     KubernetesApplication,
@@ -31,13 +30,14 @@ import { DeepPartial } from "ts-essentials";
 import { kubeConfigContext } from "./config";
 
 /**
- * Set application namespace to "sdm".
+ * Augment the Kubernetes application object in a manner suitable for deploying this SDM.  Specifically,
  *
- * If in local mode, add user config as secret to application data.
- * It also adds the use of the secret in the deploymentSpec.  It will
- * see the environment variable ATOMIST_GOAL_LAUNCHER to "kubernetes".
- * If the Kubernetes context is "minikube", add nginx-ingress
- * controller annotation to ingress.
+ * -   Set application namespace to "sdm".
+ * -   Set the environment variable ATOMIST_GOAL_LAUNCHER to "kubernetes".
+ * -   Add adequate SDM config as secret to application data and add the
+ *     use of the secret in the deploymentSpec.
+ * -   If the Kubernetes context is "minikube", add nginx-ingress
+ *     controller annotations to ingress.
  *
  * The user client.config.json will be the basis of the SDM
  * configuration.  If that cannot be read, a minimal configuration
@@ -50,9 +50,6 @@ import { kubeConfigContext } from "./config";
  */
 export async function selfDeployAppData(app: KubernetesApplication, p: GitProject, goal: KubernetesDeploy): Promise<KubernetesApplication> {
     app.ns = "sdm";
-    if (!isInLocalMode()) {
-        return app;
-    }
     if (!app.deploymentSpec || !app.deploymentSpec.spec || !app.deploymentSpec.spec.template ||
         !app.deploymentSpec.spec.template.spec || !app.deploymentSpec.spec.template.spec.containers ||
         app.deploymentSpec.spec.template.spec.containers.length < 1) {
@@ -156,10 +153,7 @@ export function addSecret(app: KubernetesApplication, goal: KubernetesDeploy): K
  * @return Kubernetes application data, possibly with new annotations on the ingressSpec
  */
 export function annotateIngress(app: KubernetesApplication, context: string): KubernetesApplication {
-    if (!app.path) {
-        return app;
-    }
-    if (context !== "minikube") {
+    if (!app.path || context !== "minikube") {
         return app;
     }
     const ingressSpec: DeepPartial<k8s.V1beta1Ingress> = {
