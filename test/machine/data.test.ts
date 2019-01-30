@@ -343,6 +343,7 @@ describe("data", () => {
                     annotations: {
                         "kubernetes.io/ingress.class": "nginx",
                         "nginx.ingress.kubernetes.io/rewrite-target": "/",
+                        "nginx.ingress.kubernetes.io/ssl-redirect": "false",
                     },
                 },
             };
@@ -362,6 +363,7 @@ describe("data", () => {
                         annotations: {
                             "nginx.ingress.kubernetes.io/rewrite-target": "/deal",
                             "nginx.ingress.kubernetes.io/client-body-buffer-size": "1m",
+                            "nginx.ingress.kubernetes.io/ssl-redirect": "false",
                         },
                     },
                 },
@@ -373,6 +375,7 @@ describe("data", () => {
                         "kubernetes.io/ingress.class": "nginx",
                         "nginx.ingress.kubernetes.io/rewrite-target": "/deal",
                         "nginx.ingress.kubernetes.io/client-body-buffer-size": "1m",
+                        "nginx.ingress.kubernetes.io/ssl-redirect": "false",
                     },
                 },
             };
