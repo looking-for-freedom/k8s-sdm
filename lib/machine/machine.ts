@@ -22,6 +22,7 @@ import {
 } from "@atomist/sdm";
 import {
     createSoftwareDeliveryMachine,
+    isInLocalMode,
     Version,
 } from "@atomist/sdm-core";
 import { Build } from "@atomist/sdm-pack-build";
@@ -45,6 +46,11 @@ import { selfDeployAppData } from "./data";
 import { dockerOptions } from "./docker";
 import { IsMe } from "./pushTest";
 
+/**
+ * Configure k8s-sdm by adding sdm-pack-k8s.  If running in local
+ * mode, k8s-sdm will be configured to build and, if there is a valid
+ * workspace ID and API key, deploy itself.
+ */
 export function machine(configuration: SoftwareDeliveryMachineConfiguration): SoftwareDeliveryMachine {
 
     const sdm = createSoftwareDeliveryMachine({
@@ -52,52 +58,54 @@ export function machine(configuration: SoftwareDeliveryMachineConfiguration): So
         configuration,
     });
 
-    const version = new Version().with({
-        name: "npm-versioner",
-        versioner: NodeProjectVersioner,
-        pushTest: IsMe,
-    });
+    sdm.addExtensionPacks(k8sSupport());
 
-    const build = new Build().with({
-        name: "npm-run-build",
-        builder: nodeBuilder(
-            { command: "npm", args: ["run", "compile"] },
-            { command: "npm", args: ["test"] },
-        ),
-        pushTest: IsMe,
-    })
-        .withProjectListener(NodeModulesProjectListener);
-
-    const dockerBuild = new DockerBuild().with({
-        name: "npm-docker-build",
-        imageNameCreator: DefaultDockerImageNameCreator,
-        options: dockerOptions(sdm),
-        pushTest: IsMe,
-    })
-        .withProjectListener(NodeModulesProjectListener)
-        .withProjectListener(NpmVersionProjectListener)
-        .withProjectListener(NpmCompileProjectListener);
-
-    const deploy = new KubernetesDeploy({ environment: configuration.environment })
-        .with({
-            name: "sdm-kubernetes-deployment",
-            applicationData: selfDeployAppData,
+    if (isInLocalMode()) {
+        const version = new Version().with({
+            name: "npm-versioner",
+            versioner: NodeProjectVersioner,
+            pushTest: IsMe,
         });
 
-    const dockerBuildGoals = goals("docker build")
-        .plan(version)
-        .plan(build).after(version)
-        .plan(dockerBuild).after(build);
+        const build = new Build().with({
+            name: "npm-run-build",
+            builder: nodeBuilder(
+                { command: "npm", args: ["run", "compile"] },
+                { command: "npm", args: ["test"] },
+            ),
+            pushTest: IsMe,
+        })
+            .withProjectListener(NodeModulesProjectListener);
 
-    const deployGoals = goals("docker build and deploy")
-        .plan(dockerBuildGoals)
-        .plan(deploy).after(dockerBuildGoals);
+        const dockerBuild = new DockerBuild().with({
+            name: "npm-docker-build",
+            imageNameCreator: DefaultDockerImageNameCreator,
+            options: dockerOptions(sdm),
+            pushTest: IsMe,
+        })
+            .withProjectListener(NodeModulesProjectListener)
+            .withProjectListener(NpmVersionProjectListener)
+            .withProjectListener(NpmCompileProjectListener);
 
-    const meGoals = (canDeploy(configuration)) ? deployGoals : dockerBuildGoals;
+        const deploy = new KubernetesDeploy({ environment: configuration.environment })
+            .with({
+                name: "sdm-kubernetes-deployment",
+                applicationData: selfDeployAppData,
+            });
 
-    sdm.withPushRules(whenPushSatisfies(IsMe).setGoals(meGoals));
+        const dockerBuildGoals = goals("docker build")
+            .plan(version)
+            .plan(build).after(version)
+            .plan(dockerBuild).after(build);
 
-    sdm.addExtensionPacks(k8sSupport());
+        const deployGoals = goals("docker build and deploy")
+            .plan(dockerBuildGoals)
+            .plan(deploy).after(dockerBuildGoals);
+
+        const meGoals = (canDeploy(configuration)) ? deployGoals : dockerBuildGoals;
+
+        sdm.withPushRules(whenPushSatisfies(IsMe).setGoals(meGoals));
+    }
 
     return sdm;
 }
