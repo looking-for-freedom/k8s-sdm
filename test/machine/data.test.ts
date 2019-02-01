@@ -28,7 +28,7 @@ describe("data", () => {
     describe("addSecret", () => {
 
         it("should add the configuration as a secret", () => {
-            const a: any = {
+            const a = {
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
@@ -57,8 +57,8 @@ describe("data", () => {
                         strategy: {
                             type: "RollingUpdate",
                             rollingUpdate: {
-                                maxUnavailable: 0,
-                                maxSurge: 1,
+                                maxUnavailable: 0 as any,
+                                maxSurge: 1 as any,
                             },
                         },
                     },
@@ -66,13 +66,12 @@ describe("data", () => {
             };
             const g: any = {
                 sdm: {
-                    name: "@pixies/come-on-pilgrim_amherst",
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
-                        name: "@pixies/come-on-pilgrim",
+                        name: "@pixies/come-on-pilgrim_amherst",
                         version: "1987.9.28",
-                        environment: a.environment,
+                        environment: "fort_apache_studios",
                         sdm: {
                             build: {
                                 docker: {
@@ -83,9 +82,10 @@ describe("data", () => {
                             },
                         },
                     },
+                    name: "Pixies - Come on Pilgrim",
                 },
             };
-            const r = addSecret(a, g);
+            const r = addSecret(a, g, undefined);
             const e = {
                 image: "come/on:pilgrim",
                 name: "pixies",
@@ -154,7 +154,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJmb3J0X2FwYWNoZV9zdHVkaW9zIiwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
                         },
                     },
                 ],
@@ -221,13 +221,12 @@ describe("data", () => {
             };
             const g = {
                 sdm: {
-                    name: "@pixies/come-on-pilgrim_amherst",
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
-                        name: "@pixies/come-on-pilgrim",
+                        name: "@pixies/come-on-pilgrim_amherst",
                         version: "1987.9.28",
-                        environment: a.environment,
+                        environment: "fort_apache_studios",
                         sdm: {
                             build: {
                                 docker: {
@@ -238,9 +237,10 @@ describe("data", () => {
                             },
                         },
                     },
+                    name: "Pixies - Come on Pilgrim",
                 },
             };
-            const r = addSecret(a, g as any);
+            const r = addSecret(a, g as any, "the-purple-tape");
             const e = {
                 image: "come/on:pilgrim",
                 name: "pixies",
@@ -314,7 +314,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJ0aGUtcHVycGxlLXRhcGUiLCJzZG0iOnsiYnVpbGQiOnsiZG9ja2VyIjp7InJlZ2lzdHJ5IjoicGl4aWVzIiwidXNlciI6ImZyYW5jaXMiLCJwYXNzd29yZCI6Ikxldml0YXRlTWUifX19fQ==",
                         },
                     },
                 ],
@@ -487,13 +487,12 @@ describe("data", () => {
             const p: any = {};
             const g: any = {
                 sdm: {
-                    name: "@pixies/come-on-pilgrim_amherst",
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
-                        name: "@pixies/come-on-pilgrim",
+                        name: "@pixies/come-on-pilgrim_amherst",
                         version: "1987.9.28",
-                        environment: a.environment,
+                        environment: "fort_apache_studios",
                         sdm: {
                             build: {
                                 docker: {
@@ -504,6 +503,7 @@ describe("data", () => {
                             },
                         },
                     },
+                    name: "Pixies - Come on Pilgrim",
                 },
             };
             const r = await selfDeployAppData(a, p, g);
@@ -579,7 +579,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9zZG0iLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9zZG0iLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJmb3J0X2FwYWNoZV9zdHVkaW9zIiwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
                         },
                     },
                 ],

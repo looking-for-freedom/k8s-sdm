@@ -66,8 +66,8 @@ export async function selfDeployAppData(app: KubernetesApplication, p: GitProjec
     } else {
         app.deploymentSpec.spec.template.spec.containers[0].env = [goalLauncherEnv];
     }
-    const k8sApp = addSecret(app, goal);
     const kubeContext = kubeConfigContext();
+    const k8sApp = addSecret(app, goal, kubeContext);
     return localIngress(k8sApp, kubeContext);
 }
 
@@ -77,24 +77,36 @@ export const sdmSecretConfigKey = "client.config.json";
 /**
  * Create the an SDM confiugration and add it as a secret in the
  * application data.  Needed configuration properties will be selected
- * from `goal.sdm.configuration` and a unique name will be created for
- * the deployed SDM.  The configuration will then be converted into a
- * Kubernetes secret and added to the application data.  The secret
- * name will be `app.name` and the key in the secret data containing
- * the encoded configuration will be [[sdmSecretConfigKey]].
+ * from `goal.sdm.configuration`, specifically:
+ *
+ * -   `name`: SDM `configuration.name` + "_" + `app.ns`
+ * -   `apiKey`: SDM `configuration.apiKey`
+ * -   `workspaceIds`: `[app.workspaceId]`
+ * -   `environment`: `context` or SDM `configuration.environment`
+ * -   `sdm.build`: SDM `configuration.sdm.build`
+ *
+ * The configuration will then be converted into a Kubernetes secret
+ * and added to the application data.  The secret name will be
+ * `app.name` and the key in the secret data containing the encoded
+ * configuration will be [[sdmSecretConfigKey]].
  *
  * The proper secret configuration will be added to the `app.deploymentSpec`.
  *
+ * Note: Since this goal is only enabled when running locally to
+ * deploy itself, using current active SDM configuration is
+ * appropriate.
+ *
  * @param app Current value of application data
  * @param config the user configuration.
+ * @param kubeContext Kubernetes config context, typically something representing the name of Kubernetes cluster.
  * @return Kubernetes application data with SDM configuration as secret.
  */
-export function addSecret(app: KubernetesApplication, goal: KubernetesDeploy): KubernetesApplication {
+export function addSecret(app: KubernetesApplication, goal: KubernetesDeploy, kubeContext: string): KubernetesApplication {
     const config: Configuration = {
-        name: [goal.sdm.name, app.ns].join("_"),
+        name: [goal.sdm.configuration.name, app.ns].join("_"),
         apiKey: goal.sdm.configuration.apiKey,
         workspaceIds: [app.workspaceId],
-        environment: goal.sdm.configuration.environment,
+        environment: kubeContext || goal.sdm.configuration.environment,
         sdm: {
             build: goal.sdm.configuration.sdm.build,
         },
