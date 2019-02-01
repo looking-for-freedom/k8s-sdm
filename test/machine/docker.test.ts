@@ -37,8 +37,8 @@ describe("docker", () => {
 
         it("should push when given configuration", () => {
             const s: SoftwareDeliveryMachine = {
-                name: "@beat/happening",
                 configuration: {
+                    name: "@beat/happening",
                     sdm: {
                         build: {
                             docker: {
@@ -62,8 +62,8 @@ describe("docker", () => {
 
         it("should get registry from SDM configuration and push", () => {
             const s: SoftwareDeliveryMachine = {
-                name: "@beat/happening",
                 configuration: {
+                    name: "@beat/happening",
                     sdm: {
                         build: {
                             docker: {

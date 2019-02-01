@@ -35,8 +35,8 @@ export function dockerOptions(sdm: SoftwareDeliveryMachine): DockerOptions {
         options.user = sdm.configuration.sdm.build.docker.user;
         options.password = sdm.configuration.sdm.build.docker.password;
     }
-    if (!options.registry && sdm.name) {
-        const pkgName = sdm.name;
+    if (!options.registry && sdm.configuration.name) {
+        const pkgName = sdm.configuration.name;
         if (pkgName.startsWith("@") && pkgName.includes("/")) {
             options.registry = pkgName.substring(1).split("/", 2)[0];
         }
