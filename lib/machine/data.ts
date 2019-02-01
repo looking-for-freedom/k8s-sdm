@@ -68,7 +68,7 @@ export async function selfDeployAppData(app: KubernetesApplication, p: GitProjec
     }
     const k8sApp = addSecret(app, goal);
     const kubeContext = kubeConfigContext();
-    return annotateIngress(k8sApp, kubeContext);
+    return localIngress(k8sApp, kubeContext);
 }
 
 /** Key containing the SDM configuration in the SDM secret. */
@@ -91,10 +91,10 @@ export const sdmSecretConfigKey = "client.config.json";
  */
 export function addSecret(app: KubernetesApplication, goal: KubernetesDeploy): KubernetesApplication {
     const config: Configuration = {
-        name: [goal.sdm.configuration.name, app.environment, app.ns].join("_"),
+        name: [goal.sdm.name, app.ns].join("_"),
         apiKey: goal.sdm.configuration.apiKey,
         workspaceIds: [app.workspaceId],
-        environment: app.environment,
+        environment: goal.sdm.configuration.environment,
         sdm: {
             build: goal.sdm.configuration.sdm.build,
         },
@@ -144,18 +144,20 @@ export function addSecret(app: KubernetesApplication, goal: KubernetesDeploy): K
 }
 
 /**
- * If deploying an application with an ingress to a minikube cluster,
- * add the appropriate nginx-ingress annotations to the ingress spec
- * if they are not already present.
+ * If deploying an application to a local cluster, make sure there is
+ * an ingress with the appropriate nginx-ingress annotations.
+ * Currently, only minikube clusters are considered local.
  *
  * @param app Kubernetes application data
  * @param context Current Kubernetes configuration context
  * @return Kubernetes application data, possibly with new annotations on the ingressSpec
  */
-export function annotateIngress(app: KubernetesApplication, context: string): KubernetesApplication {
-    if (!app.path || context !== "minikube") {
+export function localIngress(app: KubernetesApplication, context: string): KubernetesApplication {
+    if (context !== "minikube") {
         return app;
     }
+    app.path = `/${app.ns}/${app.name}`;
+    app.protocol = "http";
     const ingressSpec: DeepPartial<k8s.V1beta1Ingress> = {
         metadata: {
             annotations: {
@@ -165,6 +167,6 @@ export function annotateIngress(app: KubernetesApplication, context: string): Ku
             },
         },
     };
-    app.ingressSpec = (app.ingressSpec) ? _.merge(ingressSpec, app.ingressSpec) : ingressSpec;
+    app.ingressSpec = _.merge(ingressSpec, app.ingressSpec);
     return app;
 }

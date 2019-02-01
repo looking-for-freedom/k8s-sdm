@@ -17,7 +17,7 @@
 import * as assert from "power-assert";
 import {
     addSecret,
-    annotateIngress,
+    localIngress,
     selfDeployAppData,
 } from "../../lib/machine/data";
 
@@ -29,7 +29,6 @@ describe("data", () => {
 
         it("should add the configuration as a secret", () => {
             const a: any = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
@@ -67,6 +66,7 @@ describe("data", () => {
             };
             const g: any = {
                 sdm: {
+                    name: "@pixies/come-on-pilgrim_amherst",
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
@@ -87,7 +87,6 @@ describe("data", () => {
             };
             const r = addSecret(a, g);
             const e = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
@@ -155,7 +154,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJhbWhlcnN0Iiwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
                         },
                     },
                 ],
@@ -165,7 +164,6 @@ describe("data", () => {
 
         it("should append the configuration as a secret", () => {
             const a: any = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
@@ -223,6 +221,7 @@ describe("data", () => {
             };
             const g = {
                 sdm: {
+                    name: "@pixies/come-on-pilgrim_amherst",
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
@@ -243,7 +242,6 @@ describe("data", () => {
             };
             const r = addSecret(a, g as any);
             const e = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
@@ -316,7 +314,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJhbWhlcnN0Iiwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
                         },
                     },
                 ],
@@ -328,31 +326,34 @@ describe("data", () => {
 
     describe("annotateIngress", () => {
 
-        it("should add annotations to ingress", () => {
+        it("should update path and add protocol & ingress spec", () => {
             const a = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
                 path: "/",
                 workspaceId: "FORTAPACHE",
             };
-            const u = annotateIngress(a, "minikube");
+            const u = localIngress(a, "minikube");
             const e = {
-                metadata: {
-                    annotations: {
-                        "kubernetes.io/ingress.class": "nginx",
-                        "nginx.ingress.kubernetes.io/rewrite-target": "/",
-                        "nginx.ingress.kubernetes.io/ssl-redirect": "false",
+                ...a,
+                path: "/4ad/pixies",
+                protocol: "http",
+                ingressSpec: {
+                    metadata: {
+                        annotations: {
+                            "kubernetes.io/ingress.class": "nginx",
+                            "nginx.ingress.kubernetes.io/rewrite-target": "/",
+                            "nginx.ingress.kubernetes.io/ssl-redirect": "false",
+                        },
                     },
                 },
             };
-            assert.deepStrictEqual(u.ingressSpec, e);
+            assert.deepStrictEqual(u, e);
         });
 
         it("should properly merge ingress spec", () => {
             const a = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
@@ -368,42 +369,62 @@ describe("data", () => {
                     },
                 },
             };
-            const u = annotateIngress(a, "minikube");
+            const u = localIngress(a, "minikube");
             const e = {
-                metadata: {
-                    annotations: {
-                        "kubernetes.io/ingress.class": "nginx",
-                        "nginx.ingress.kubernetes.io/rewrite-target": "/deal",
-                        "nginx.ingress.kubernetes.io/client-body-buffer-size": "1m",
-                        "nginx.ingress.kubernetes.io/ssl-redirect": "false",
+                image: "come/on:pilgrim",
+                name: "pixies",
+                ns: "4ad",
+                path: "/4ad/pixies",
+                protocol: "http",
+                workspaceId: "FORTAPACHE",
+                ingressSpec: {
+                    metadata: {
+                        annotations: {
+                            "kubernetes.io/ingress.class": "nginx",
+                            "nginx.ingress.kubernetes.io/rewrite-target": "/deal",
+                            "nginx.ingress.kubernetes.io/client-body-buffer-size": "1m",
+                            "nginx.ingress.kubernetes.io/ssl-redirect": "false",
+                        },
                     },
                 },
             };
-            assert.deepStrictEqual(u.ingressSpec, e);
+            assert.deepStrictEqual(u, e);
         });
 
-        it("should not add anything if no path", () => {
+        it("should add ingress even if no path", () => {
             const a = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
                 workspaceId: "FORTAPACHE",
             };
-            const u = annotateIngress(a, "minikube");
-            assert.deepStrictEqual(u, a);
+            const u = localIngress(a, "minikube");
+            const e = {
+                ...a,
+                path: "/4ad/pixies",
+                protocol: "http",
+                ingressSpec: {
+                    metadata: {
+                        annotations: {
+                            "kubernetes.io/ingress.class": "nginx",
+                            "nginx.ingress.kubernetes.io/rewrite-target": "/",
+                            "nginx.ingress.kubernetes.io/ssl-redirect": "false",
+                        },
+                    },
+                },
+            };
+            assert.deepStrictEqual(u, e);
         });
 
         it("should not add anything if context not minikube", () => {
             const a = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
                 path: "/",
                 workspaceId: "FORTAPACHE",
             };
-            const u = annotateIngress(a, "doolittle");
+            const u = localIngress(a, "doolittle");
             assert.deepStrictEqual(u, a);
         });
 
@@ -411,9 +432,23 @@ describe("data", () => {
 
     describe("selfDeployAppData", () => {
 
+        let envKubeConfig: string;
+        before(() => {
+            if (process.env.KUBECONFIG) {
+                envKubeConfig = process.env.KUBECONFIG;
+            }
+            process.env.KUBECONFIG = "/dev/null";
+        });
+        after(() => {
+            if (envKubeConfig) {
+                process.env.KUBECONFIG = envKubeConfig;
+            } else {
+                delete process.env.KUBECONFIG;
+            }
+        });
+
         it("should make ready the deployment", async () => {
             const a: any = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "4ad",
@@ -452,6 +487,7 @@ describe("data", () => {
             const p: any = {};
             const g: any = {
                 sdm: {
+                    name: "@pixies/come-on-pilgrim_amherst",
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
@@ -472,7 +508,6 @@ describe("data", () => {
             };
             const r = await selfDeployAppData(a, p, g);
             const e = {
-                environment: "amherst",
                 image: "come/on:pilgrim",
                 name: "pixies",
                 ns: "sdm",
@@ -544,7 +579,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9zZG0iLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJhbWhlcnN0Iiwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9zZG0iLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
                         },
                     },
                 ],
