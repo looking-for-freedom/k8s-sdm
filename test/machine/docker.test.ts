@@ -16,29 +16,11 @@
 
 import { SoftwareDeliveryMachine } from "@atomist/sdm";
 import * as assert from "power-assert";
-import * as readPkgUp from "read-pkg-up";
 import { dockerOptions } from "../../lib/machine/docker";
 
 describe("docker", () => {
 
     describe("dockerOptions", () => {
-
-        let pkgName: string;
-        let registry: string;
-        before(() => {
-            const pkg = readPkgUp.sync({ cwd: __dirname });
-            pkgName = pkg.pkg.name;
-            if (pkgName.startsWith("@") && pkgName.includes("/")) {
-                registry = pkgName.substring(1).split("/", 2)[0];
-            }
-        });
-
-        it("should extract scope from package name", () => {
-            if (pkgName.startsWith("@")) {
-                assert(registry, "failed to extract scope from package name");
-            }
-            assert(registry === "atomist");
-        });
 
         it("should not push when no configuration", () => {
             const s: SoftwareDeliveryMachine = {
@@ -49,13 +31,13 @@ describe("docker", () => {
             const o = dockerOptions(s);
             const e = {
                 push: false,
-                registry,
             };
             assert.deepStrictEqual(o, e);
         });
 
         it("should push when given configuration", () => {
             const s: SoftwareDeliveryMachine = {
+                name: "@beat/happening",
                 configuration: {
                     sdm: {
                         build: {
@@ -78,8 +60,9 @@ describe("docker", () => {
             assert.deepStrictEqual(o, e);
         });
 
-        it("should push get registry configuration", () => {
+        it("should get registry from SDM configuration and push", () => {
             const s: SoftwareDeliveryMachine = {
+                name: "@beat/happening",
                 configuration: {
                     sdm: {
                         build: {
@@ -95,7 +78,7 @@ describe("docker", () => {
             const e = {
                 push: true,
                 password: "you",
-                registry,
+                registry: "beat",
                 user: "me",
             };
             assert.deepStrictEqual(o, e);

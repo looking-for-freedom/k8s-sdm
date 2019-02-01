@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-import { logger } from "@atomist/automation-client";
 import { SoftwareDeliveryMachine } from "@atomist/sdm";
 import { DockerOptions } from "@atomist/sdm-pack-docker";
-import * as readPkgUp from "read-pkg-up";
 
 /**
  * Generate docker options from the SDM configuration.  It looks in
  * the SDM configuration, specifically under
  * `sdm.configuration.sdm.build.docker` for the "push", "registry",
- * "user", and "password" properties.  Must be a sync function since
- * the `machine()` function is sync.
+ * "user", and "password" properties.  If it cannot get the registry
+ * from the SDM configuration, it tries to extract one from the
+ * package scope of the SDM.
  *
  * @param sdm The current SDM
  * @return Docker registry information
@@ -36,16 +35,10 @@ export function dockerOptions(sdm: SoftwareDeliveryMachine): DockerOptions {
         options.user = sdm.configuration.sdm.build.docker.user;
         options.password = sdm.configuration.sdm.build.docker.password;
     }
-    if (!options.registry) {
-        // try to get Docker Hub owner from package scope
-        try {
-            const pkg = readPkgUp.sync({ cwd: __dirname });
-            const pkgName = pkg.pkg.name;
-            if (pkgName.startsWith("@") && pkgName.includes("/")) {
-                options.registry = pkgName.substring(1).split("/", 2)[0];
-            }
-        } catch (e) {
-            logger.warn(`Failed to load SDM package.json: ${e.message}`);
+    if (!options.registry && sdm.name) {
+        const pkgName = sdm.name;
+        if (pkgName.startsWith("@") && pkgName.includes("/")) {
+            options.registry = pkgName.substring(1).split("/", 2)[0];
         }
     }
     if (options.registry && options.user && options.password) {
