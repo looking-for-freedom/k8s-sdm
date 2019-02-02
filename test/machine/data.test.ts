@@ -65,13 +65,16 @@ describe("data", () => {
                 },
             };
             const g: any = {
+                details: {
+                    environment: "fort-apache-studios",
+                },
                 sdm: {
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
                         name: "@pixies/come-on-pilgrim_amherst",
                         version: "1987.9.28",
-                        environment: "fort_apache_studios",
+                        environment: "Roxbury, MA",
                         sdm: {
                             build: {
                                 docker: {
@@ -154,7 +157,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJmb3J0X2FwYWNoZV9zdHVkaW9zIiwiY2x1c3RlciI6eyJ3b3JrZXJzIjoyfSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9mb3J0LWFwYWNoZS1zdHVkaW9zIiwiYXBpS2V5IjoiMDEyMzQ1Njc4OUFCQ0RFRiIsIndvcmtzcGFjZUlkcyI6WyJGMFJUNFA0Q0gzIl0sImVudmlyb25tZW50IjoiZm9ydC1hcGFjaGUtc3R1ZGlvcyIsImNsdXN0ZXIiOnsid29ya2VycyI6Mn0sInNkbSI6eyJidWlsZCI6eyJkb2NrZXIiOnsicmVnaXN0cnkiOiJwaXhpZXMiLCJ1c2VyIjoiZnJhbmNpcyIsInBhc3N3b3JkIjoiTGV2aXRhdGVNZSJ9fX19",
                         },
                     },
                 ],
@@ -220,13 +223,16 @@ describe("data", () => {
                 }],
             };
             const g = {
+                details: {
+                    environment: "fort_apache_studios",
+                },
                 sdm: {
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
                         name: "@pixies/come-on-pilgrim_amherst",
                         version: "1987.9.28",
-                        environment: "fort_apache_studios",
+                        environment: "Roxbury, MA",
                         sdm: {
                             build: {
                                 docker: {
@@ -314,7 +320,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJ0aGUtcHVycGxlLXRhcGUiLCJjbHVzdGVyIjp7IndvcmtlcnMiOjJ9LCJzZG0iOnsiYnVpbGQiOnsiZG9ja2VyIjp7InJlZ2lzdHJ5IjoicGl4aWVzIiwidXNlciI6ImZyYW5jaXMiLCJwYXNzd29yZCI6Ikxldml0YXRlTWUifX19fQ==",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF90aGUtcHVycGxlLXRhcGUiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJ0aGUtcHVycGxlLXRhcGUiLCJjbHVzdGVyIjp7IndvcmtlcnMiOjJ9LCJzZG0iOnsiYnVpbGQiOnsiZG9ja2VyIjp7InJlZ2lzdHJ5IjoicGl4aWVzIiwidXNlciI6ImZyYW5jaXMiLCJwYXNzd29yZCI6Ikxldml0YXRlTWUifX19fQ==",
                         },
                     },
                 ],
@@ -486,13 +492,16 @@ describe("data", () => {
             };
             const p: any = {};
             const g: any = {
+                details: {
+                    environment: "fort-apache-studios",
+                },
                 sdm: {
                     configuration: {
                         apiKey: "0123456789ABCDEF",
                         workspaceIds: ["SURF3RR05A", a.workspaceId],
                         name: "@pixies/come-on-pilgrim_amherst",
                         version: "1987.9.28",
-                        environment: "fort_apache_studios",
+                        environment: "Roxbury, MA",
                         sdm: {
                             build: {
                                 docker: {
@@ -579,7 +588,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9zZG0iLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJmb3J0X2FwYWNoZV9zdHVkaW9zIiwiY2x1c3RlciI6eyJ3b3JrZXJzIjoyfSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9mb3J0LWFwYWNoZS1zdHVkaW9zIiwiYXBpS2V5IjoiMDEyMzQ1Njc4OUFCQ0RFRiIsIndvcmtzcGFjZUlkcyI6WyJGMFJUNFA0Q0gzIl0sImVudmlyb25tZW50IjoiZm9ydC1hcGFjaGUtc3R1ZGlvcyIsImNsdXN0ZXIiOnsid29ya2VycyI6Mn0sInNkbSI6eyJidWlsZCI6eyJkb2NrZXIiOnsicmVnaXN0cnkiOiJwaXhpZXMiLCJ1c2VyIjoiZnJhbmNpcyIsInBhc3N3b3JkIjoiTGV2aXRhdGVNZSJ9fX19",
                         },
                     },
                 ],

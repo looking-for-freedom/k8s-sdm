@@ -102,11 +102,12 @@ export const sdmSecretConfigKey = "client.config.json";
  * @return Kubernetes application data with SDM configuration as secret.
  */
 export function addSecret(app: KubernetesApplication, goal: KubernetesDeploy, kubeContext: string): KubernetesApplication {
+    const cluster = kubeContext || goal.details.environment || goal.sdm.configuration.environment;
     const config: Configuration = {
-        name: [goal.sdm.configuration.name, app.ns].join("_"),
+        name: goal.sdm.configuration.name + "_" + cluster,
         apiKey: goal.sdm.configuration.apiKey,
         workspaceIds: [app.workspaceId],
-        environment: kubeContext || goal.sdm.configuration.environment,
+        environment: cluster,
         cluster: {
             workers: 2,
         },
