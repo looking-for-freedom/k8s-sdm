@@ -107,6 +107,9 @@ export function addSecret(app: KubernetesApplication, goal: KubernetesDeploy, ku
         apiKey: goal.sdm.configuration.apiKey,
         workspaceIds: [app.workspaceId],
         environment: kubeContext || goal.sdm.configuration.environment,
+        cluster: {
+            workers: 2,
+        },
         sdm: {
             build: goal.sdm.configuration.sdm.build,
         },

@@ -154,7 +154,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJmb3J0X2FwYWNoZV9zdHVkaW9zIiwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJmb3J0X2FwYWNoZV9zdHVkaW9zIiwiY2x1c3RlciI6eyJ3b3JrZXJzIjoyfSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
                         },
                     },
                 ],
@@ -314,7 +314,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJ0aGUtcHVycGxlLXRhcGUiLCJzZG0iOnsiYnVpbGQiOnsiZG9ja2VyIjp7InJlZ2lzdHJ5IjoicGl4aWVzIiwidXNlciI6ImZyYW5jaXMiLCJwYXNzd29yZCI6Ikxldml0YXRlTWUifX19fQ==",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF80YWQiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJ0aGUtcHVycGxlLXRhcGUiLCJjbHVzdGVyIjp7IndvcmtlcnMiOjJ9LCJzZG0iOnsiYnVpbGQiOnsiZG9ja2VyIjp7InJlZ2lzdHJ5IjoicGl4aWVzIiwidXNlciI6ImZyYW5jaXMiLCJwYXNzd29yZCI6Ikxldml0YXRlTWUifX19fQ==",
                         },
                     },
                 ],
@@ -579,7 +579,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9zZG0iLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJmb3J0X2FwYWNoZV9zdHVkaW9zIiwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9zZG0iLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJmb3J0X2FwYWNoZV9zdHVkaW9zIiwiY2x1c3RlciI6eyJ3b3JrZXJzIjoyfSwic2RtIjp7ImJ1aWxkIjp7ImRvY2tlciI6eyJyZWdpc3RyeSI6InBpeGllcyIsInVzZXIiOiJmcmFuY2lzIiwicGFzc3dvcmQiOiJMZXZpdGF0ZU1lIn19fX0=",
                         },
                     },
                 ],
