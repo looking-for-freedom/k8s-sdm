@@ -1,8 +1,9 @@
 # Deploying
 
-This directory contains the resources needed to deploy to Kubernetes
-using the [`kubectl` command-line utility][kubectl].  See
-[Running][run] in the main README for detailed instructions.
+This directory contains the resources needed to manually deploy to
+Kubernetes using the [`kubectl` command-line utility][kubectl].  See
+the [Atomist Kubernetes documentation][k8s-doc] for detailed
+instructions.
 
 [kubectl]: https://kubernetes.io/docs/reference/kubectl/overview/ (Kubernetes - kubectl)
-[run]: ../../README.md#running (Running k8-sdm)
+[k8s-doc]: https://docs.atomist.com/pack/kubernetes/ (Deploying k8-sdm)
