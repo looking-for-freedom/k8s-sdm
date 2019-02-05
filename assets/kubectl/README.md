@@ -6,4 +6,4 @@ the [Atomist Kubernetes documentation][k8s-doc] for detailed
 instructions.
 
 [kubectl]: https://kubernetes.io/docs/reference/kubectl/overview/ (Kubernetes - kubectl)
-[k8s-doc]: https://docs.atomist.com/pack/kubernetes/ (Deploying k8-sdm)
+[k8s-doc]: https://docs.atomist.com/pack/kubernetes/ (Deploying k8s-sdm)
