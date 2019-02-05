@@ -120,7 +120,7 @@ describe("data", () => {
                                         volumeMounts: [
                                             {
                                                 mountPath: "/opt/atm",
-                                                name: "sdm-config",
+                                                name: "pixies",
                                                 readOnly: true,
                                             },
                                         ],
@@ -129,7 +129,7 @@ describe("data", () => {
                                 ],
                                 volumes: [
                                     {
-                                        name: "sdm-config",
+                                        name: "pixies",
                                         secret: {
                                             secretName: "pixies",
                                             defaultMode: 256,
@@ -157,7 +157,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9mb3J0LWFwYWNoZS1zdHVkaW9zIiwiYXBpS2V5IjoiMDEyMzQ1Njc4OUFCQ0RFRiIsIndvcmtzcGFjZUlkcyI6WyJGMFJUNFA0Q0gzIl0sImVudmlyb25tZW50IjoiZm9ydC1hcGFjaGUtc3R1ZGlvcyIsImNsdXN0ZXIiOnsid29ya2VycyI6Mn0sInNkbSI6eyJidWlsZCI6eyJkb2NrZXIiOnsicmVnaXN0cnkiOiJwaXhpZXMiLCJ1c2VyIjoiZnJhbmNpcyIsInBhc3N3b3JkIjoiTGV2aXRhdGVNZSJ9fX19",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9mb3J0LWFwYWNoZS1zdHVkaW9zIiwiYXBpS2V5IjoiMDEyMzQ1Njc4OUFCQ0RFRiIsIndvcmtzcGFjZUlkcyI6WyJGMFJUNFA0Q0gzIl0sImVudmlyb25tZW50IjoiZm9ydC1hcGFjaGUtc3R1ZGlvcyIsImNsdXN0ZXIiOnsid29ya2VycyI6Mn19",
                         },
                     },
                 ],
@@ -282,7 +282,7 @@ describe("data", () => {
                                         volumeMounts: [
                                             {
                                                 mountPath: "/opt/atm",
-                                                name: "sdm-config",
+                                                name: "pixies",
                                                 readOnly: true,
                                             },
                                         ],
@@ -291,7 +291,7 @@ describe("data", () => {
                                 ],
                                 volumes: [
                                     {
-                                        name: "sdm-config",
+                                        name: "pixies",
                                         secret: {
                                             secretName: "pixies",
                                             defaultMode: 256,
@@ -320,7 +320,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF90aGUtcHVycGxlLXRhcGUiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJ0aGUtcHVycGxlLXRhcGUiLCJjbHVzdGVyIjp7IndvcmtlcnMiOjJ9LCJzZG0iOnsiYnVpbGQiOnsiZG9ja2VyIjp7InJlZ2lzdHJ5IjoicGl4aWVzIiwidXNlciI6ImZyYW5jaXMiLCJwYXNzd29yZCI6Ikxldml0YXRlTWUifX19fQ==",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF90aGUtcHVycGxlLXRhcGUiLCJhcGlLZXkiOiIwMTIzNDU2Nzg5QUJDREVGIiwid29ya3NwYWNlSWRzIjpbIkYwUlQ0UDRDSDMiXSwiZW52aXJvbm1lbnQiOiJ0aGUtcHVycGxlLXRhcGUiLCJjbHVzdGVyIjp7IndvcmtlcnMiOjJ9fQ==",
                         },
                     },
                 ],
@@ -538,10 +538,6 @@ describe("data", () => {
                                     {
                                         env: [
                                             {
-                                                name: "ATOMIST_GOAL_LAUNCHER",
-                                                value: "kubernetes",
-                                            },
-                                            {
                                                 name: "ATOMIST_CONFIG_PATH",
                                                 value: "/opt/atm/client.config.json",
                                             },
@@ -551,16 +547,15 @@ describe("data", () => {
                                         volumeMounts: [
                                             {
                                                 mountPath: "/opt/atm",
-                                                name: "sdm-config",
+                                                name: "pixies",
                                                 readOnly: true,
                                             },
                                         ],
-
                                     },
                                 ],
                                 volumes: [
                                     {
-                                        name: "sdm-config",
+                                        name: "pixies",
                                         secret: {
                                             secretName: "pixies",
                                             defaultMode: 256,
@@ -588,7 +583,7 @@ describe("data", () => {
                         },
                         data: {
                             // tslint:disable-next-line:max-line-length
-                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9mb3J0LWFwYWNoZS1zdHVkaW9zIiwiYXBpS2V5IjoiMDEyMzQ1Njc4OUFCQ0RFRiIsIndvcmtzcGFjZUlkcyI6WyJGMFJUNFA0Q0gzIl0sImVudmlyb25tZW50IjoiZm9ydC1hcGFjaGUtc3R1ZGlvcyIsImNsdXN0ZXIiOnsid29ya2VycyI6Mn0sInNkbSI6eyJidWlsZCI6eyJkb2NrZXIiOnsicmVnaXN0cnkiOiJwaXhpZXMiLCJ1c2VyIjoiZnJhbmNpcyIsInBhc3N3b3JkIjoiTGV2aXRhdGVNZSJ9fX19",
+                            "client.config.json": "eyJuYW1lIjoiQHBpeGllcy9jb21lLW9uLXBpbGdyaW1fYW1oZXJzdF9mb3J0LWFwYWNoZS1zdHVkaW9zIiwiYXBpS2V5IjoiMDEyMzQ1Njc4OUFCQ0RFRiIsIndvcmtzcGFjZUlkcyI6WyJGMFJUNFA0Q0gzIl0sImVudmlyb25tZW50IjoiZm9ydC1hcGFjaGUtc3R1ZGlvcyIsImNsdXN0ZXIiOnsid29ya2VycyI6Mn19",
                         },
                     },
                 ],

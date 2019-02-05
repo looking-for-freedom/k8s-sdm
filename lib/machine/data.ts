@@ -17,7 +17,6 @@
 import {
     Configuration,
     GitProject,
-    logger,
 } from "@atomist/automation-client";
 import {
     encodeSecret,
@@ -50,29 +49,10 @@ import { kubeConfigContext } from "./config";
  */
 export async function selfDeployAppData(app: KubernetesApplication, p: GitProject, goal: KubernetesDeploy): Promise<KubernetesApplication> {
     app.ns = "sdm";
-    if (!app.deploymentSpec || !app.deploymentSpec.spec || !app.deploymentSpec.spec.template ||
-        !app.deploymentSpec.spec.template.spec || !app.deploymentSpec.spec.template.spec.containers ||
-        app.deploymentSpec.spec.template.spec.containers.length < 1) {
-        logger.warn(`Kubernetes application deployment spec does not seem to be populated with default values: ` +
-            JSON.stringify(app.deploymentSpec));
-        return app;
-    }
-    const goalLauncherEnv = {
-        name: "ATOMIST_GOAL_LAUNCHER",
-        value: "kubernetes",
-    };
-    if (app.deploymentSpec.spec.template.spec.containers[0].env) {
-        app.deploymentSpec.spec.template.spec.containers[0].env.push(goalLauncherEnv);
-    } else {
-        app.deploymentSpec.spec.template.spec.containers[0].env = [goalLauncherEnv];
-    }
     const kubeContext = kubeConfigContext();
     const k8sApp = addSecret(app, goal, kubeContext);
     return localIngress(k8sApp, kubeContext);
 }
-
-/** Key containing the SDM configuration in the SDM secret. */
-export const sdmSecretConfigKey = "client.config.json";
 
 /**
  * Create the an SDM confiugration and add it as a secret in the
@@ -102,61 +82,60 @@ export const sdmSecretConfigKey = "client.config.json";
  * @return Kubernetes application data with SDM configuration as secret.
  */
 export function addSecret(app: KubernetesApplication, goal: KubernetesDeploy, kubeContext: string): KubernetesApplication {
+    const secretApp = _.merge({ deploymentSpec: { spec: { template: { spec: { containers: [{}] } } } } }, app);
     const cluster = kubeContext || goal.details.environment || goal.sdm.configuration.environment;
     const config: Configuration = {
         name: goal.sdm.configuration.name + "_" + cluster,
         apiKey: goal.sdm.configuration.apiKey,
-        workspaceIds: [app.workspaceId],
+        workspaceIds: [secretApp.workspaceId],
         environment: cluster,
         cluster: {
             workers: 2,
         },
-        sdm: {
-            build: goal.sdm.configuration.sdm.build,
-        },
     };
     const secretData: { [key: string]: string } = {};
+    const sdmSecretConfigKey = "client.config.json";
     secretData[sdmSecretConfigKey] = JSON.stringify(config);
-    const configSecret = encodeSecret(app.name, secretData);
-    if (app.secrets) {
-        app.secrets.push(configSecret);
+    const configSecret = encodeSecret(secretApp.name, secretData);
+    if (secretApp.secrets) {
+        secretApp.secrets.push(configSecret);
     } else {
-        app.secrets = [configSecret];
+        secretApp.secrets = [configSecret];
     }
 
     const secretVolume = {
-        name: "sdm-config",
+        name: secretApp.name,
         secret: {
-            secretName: app.name,
             defaultMode: 256,
+            secretName: secretApp.name,
         },
     };
-    if (app.deploymentSpec.spec.template.spec.volumes) {
-        app.deploymentSpec.spec.template.spec.volumes.push(secretVolume);
+    if (secretApp.deploymentSpec.spec.template.spec.volumes) {
+        secretApp.deploymentSpec.spec.template.spec.volumes.push(secretVolume);
     } else {
-        app.deploymentSpec.spec.template.spec.volumes = [secretVolume];
+        secretApp.deploymentSpec.spec.template.spec.volumes = [secretVolume];
     }
     const volumeMount = {
-        name: secretVolume.name,
         mountPath: "/opt/atm",
+        name: secretVolume.name,
         readOnly: true,
     };
-    if (app.deploymentSpec.spec.template.spec.containers[0].volumeMounts) {
-        app.deploymentSpec.spec.template.spec.containers[0].volumeMounts.push(volumeMount);
+    if (secretApp.deploymentSpec.spec.template.spec.containers[0].volumeMounts) {
+        secretApp.deploymentSpec.spec.template.spec.containers[0].volumeMounts.push(volumeMount);
     } else {
-        app.deploymentSpec.spec.template.spec.containers[0].volumeMounts = [volumeMount];
+        secretApp.deploymentSpec.spec.template.spec.containers[0].volumeMounts = [volumeMount];
     }
     const secretEnv = {
         name: "ATOMIST_CONFIG_PATH",
         value: `${volumeMount.mountPath}/${sdmSecretConfigKey}`,
     };
-    if (app.deploymentSpec.spec.template.spec.containers[0].env) {
-        app.deploymentSpec.spec.template.spec.containers[0].env.push(secretEnv);
+    if (secretApp.deploymentSpec.spec.template.spec.containers[0].env) {
+        secretApp.deploymentSpec.spec.template.spec.containers[0].env.push(secretEnv);
     } else {
-        app.deploymentSpec.spec.template.spec.containers[0].env = [secretEnv];
+        secretApp.deploymentSpec.spec.template.spec.containers[0].env = [secretEnv];
     }
 
-    return app;
+    return secretApp;
 }
 
 /**
