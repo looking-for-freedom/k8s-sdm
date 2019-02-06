@@ -14,7 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Improve README.
 -   Update package scripts.
 -   Convert to k8-sdm. [#16](https://github.com/atomist/k8s-sdm/issues/16)
--   Migrate to k8s-sdm. [#18](https://github.com/atomist/k8s-sdm/issues/18)
+-   **BREAKING** Migrate to k8s-sdm. [#18](https://github.com/atomist/k8s-sdm/issues/18)
+
+### Fixed
+
+-   Ensure running instance has unique name enhancement. [#17](https://github.com/atomist/k8s-sdm/issues/17)
 
 ## [0.9.0](https://github.com/atomist/k8s-sdm/compare/0.8.0...0.9.0) - 2018-08-04
 
