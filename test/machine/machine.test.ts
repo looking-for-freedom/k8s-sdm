@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Atomist, Inc.
+ * Copyright © 2019 Atomist, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-/**
- * Prepend message to (e: Error).message.
- *
- * @param e original Error
- * @param prefix text to prepend to e.message
- * @return e with modified message
- */
-export function preErrMsg(e: Error, prefix: string): Error {
-    e.message = `${prefix}: ${e.message}`;
-    return e;
-}
+import * as assert from "power-assert";
+import {
+    machine,
+} from "../../lib/machine/machine";
+
+describe("machine", () => {
+
+    it("should create a k8 SDM", () => {
+        const sdm = machine({ name: "k8s-sdm-test" } as any);
+        assert(sdm);
+        assert(sdm.extensionPacks.some(p => p.name === "@atomist/sdm-pack-k8s"));
+    });
+
+});
