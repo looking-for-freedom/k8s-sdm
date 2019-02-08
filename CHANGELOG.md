@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/k8s-sdm/compare/1.0.1...HEAD)
 
+### Changed
+
+-   Update sdm-pack-k8s and kubernetes client. [93770dd](https://github.com/atomist/k8s-sdm/commit/93770dd94847ff57e1e3bb8a12b09f95fdf6b312)
+
 ## [1.0.1](https://github.com/atomist/k8s-sdm/compare/1.0.0...1.0.1) - 2019-02-07
 
 ### Changed
