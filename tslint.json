@@ -40,6 +40,9 @@
     "deprecation": true,
     "eofline": true,
     "forin": true,
+    "import-blacklist": {
+      "options": "axios"
+    },
     "import-spacing": true,
     "indent": {
       "options": ["spaces"]
