@@ -1,7 +1,7 @@
 {
   "name": "@atomist/k8s-sdm",
   "version": "1.0.2",
-  "description": "Automations for deploying, updating, and removing resources in Kubernetes",
+  "description": "Atomist SDM for deploying, updating, and removing Kubernetes resources",
   "author": {
     "name": "Atomist",
     "email": "support@atomist.com",
