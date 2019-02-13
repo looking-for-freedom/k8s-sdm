@@ -88,10 +88,7 @@ export function machine(configuration: SoftwareDeliveryMachineConfiguration): So
             .withProjectListener(NpmCompileProjectListener);
 
         const deploy = new KubernetesDeploy({ environment: configuration.environment })
-            .with({
-                name: "sdm-kubernetes-deployment",
-                applicationData: selfDeployAppData,
-            });
+            .with({ applicationData: selfDeployAppData });
 
         const dockerBuildGoals = goals("docker build")
             .plan(version)
