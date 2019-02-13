@@ -26,7 +26,7 @@ import { machine } from "./lib/machine/machine";
 const machineOptions: ConfigureOptions = {
     requiredConfigurationValues: [
         "environment",
-    ],
+    ], 
 };
 
 export const configuration: Configuration = {
