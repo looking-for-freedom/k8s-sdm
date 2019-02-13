@@ -1,6 +1,6 @@
 {
   "name": "@atomist/k8s-sdm",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Atomist SDM for deploying, updating, and removing Kubernetes applications",
   "author": {
     "name": "Atomist",
