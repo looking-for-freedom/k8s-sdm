@@ -31,7 +31,7 @@
     "@atomist/sdm-core": "1.3.0-master.20190211113656",
     "@atomist/sdm-pack-build": "1.0.4-master.20190130053304",
     "@atomist/sdm-pack-docker": "1.0.3-master.20190121121453",
-    "@atomist/sdm-pack-k8s": "1.3.5-goal-descriptions.20190213125348",
+    "@atomist/sdm-pack-k8s": "1.3.5-goal-descriptions.20190213144807",
     "@atomist/sdm-pack-node": "1.0.3-master.20190206103839",
     "@atomist/slack-messages": "^1.1.0",
     "@kubernetes/client-node": "^0.8.1",
