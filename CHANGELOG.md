@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/k8s-sdm/compare/1.0.2...HEAD)
 
+### Changed
+
+-   Update Atomist dependencies.
+
 ## [1.0.2](https://github.com/atomist/k8s-sdm/compare/1.0.1...1.0.2) - 2019-02-12
 
 ### Changed
