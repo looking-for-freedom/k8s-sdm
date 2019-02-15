@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/k8s-sdm/compare/1.0.3...HEAD)
 
+### Changed
+
+-   Add jobs to (cluster) role. [c4847fc](https://github.com/atomist/k8s-sdm/commit/c4847fcca4f3d4ed9cd9e13942ff170cfb6f4695)
+
 ## [1.0.3](https://github.com/atomist/k8s-sdm/compare/1.0.2...1.0.3) - 2019-02-13
 
 ### Changed
