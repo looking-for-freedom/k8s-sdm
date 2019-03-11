@@ -35,4 +35,7 @@ export const configuration: Configuration = {
         configureLogzio,
         configureSdm(machine, machineOptions),
     ],
+    cluster: {
+        workers: 2,
+    }
 };
