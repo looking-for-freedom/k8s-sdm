@@ -37,5 +37,5 @@ export const configuration: Configuration = {
     ],
     cluster: {
         workers: 2,
-    }
+    },
 };
