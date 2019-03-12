@@ -73,7 +73,7 @@ spec:
       serviceAccountName: k8s-sdm
       containers:
         - name: k8s-sdm
-          image: atomist/k8s-sdm:1.0.3
+          image: atomist/k8s-sdm:1.0.4
           imagePullPolicy: IfNotPresent
           env:
             - name: ATOMIST_CONFIG_PATH
