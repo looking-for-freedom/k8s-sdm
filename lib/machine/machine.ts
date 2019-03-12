@@ -58,7 +58,7 @@ export function machine(configuration: SoftwareDeliveryMachineConfiguration): So
         configuration,
     });
 
-    sdm.addExtensionPacks(k8sSupport());
+    sdm.addExtensionPacks(k8sSupport({ registerCluster: true }));
 
     if (isInLocalMode()) {
         const version = new Version().with({
