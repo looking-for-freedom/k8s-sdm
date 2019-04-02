@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/k8s-sdm/compare/1.0.5...HEAD)
 
+### Changed
+
+-   Update Kubernetes resources for atomist user. [#21](https://github.com/atomist/k8s-sdm/issues/21)
+
 ## [1.0.5](https://github.com/atomist/k8s-sdm/compare/1.0.4...1.0.5) - 2019-04-02
 
 ## [1.0.4](https://github.com/atomist/k8s-sdm/compare/1.0.3...1.0.4) - 2019-03-12
