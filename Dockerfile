@@ -5,3 +5,5 @@ RUN npm ci \
     && npm cache clean --force
 
 COPY . ./
+
+USER atomist:atomist

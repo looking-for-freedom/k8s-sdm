@@ -4,6 +4,16 @@
       "spec": {
         "containers": [
           {
+            "env": [
+              {
+                "name": "ATOMIST_CONFIG_PATH",
+                "value": "/opt/atm/client.config.json"
+              },
+              {
+                "name": "TMPDIR",
+                "value": "/tmp"
+              }
+            ],
             "livenessProbe": {
               "httpGet": {
                 "path": "/health"
@@ -20,9 +30,80 @@
             },
             "resources": {
               "limits": {
-                "cpu": "500m"
+                "cpu": "500m",
+                "memory": "384Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "320Mi"
               }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "privileged": false,
+              "readOnlyRootFilesystem": true
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/opt/atm",
+                "name": "k8s-sdm",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/home/atomist",
+                "name": "home"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "initContainers": [
+          {
+            "args": [
+              "git config --global user.email 'bot@atomist.com' && git config --global user.name 'Atomist Bot'"
+            ],
+            "command": ["/bin/sh", "-c"],
+            "image": "atomist/k8s-sdm:1.1.0",
+            "name": "home",
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "privileged": false,
+              "readOnlyRootFilesystem": true
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/home/atomist",
+                "name": "home"
+              }
+            ]
+          }
+        ],
+        "securityContext": {
+          "fsGroup": 2866,
+          "runAsGroup": 2866,
+          "runAsNonRoot": true,
+          "runAsUser": 2866,
+          "supplementalGroups": [],
+          "sysctls": []
+        },
+        "volumes": [
+          {
+            "name": "k8s-sdm",
+            "secret": {
+              "defaultMode": 288,
+              "secretName": "k8s-sdm"
             }
+          },
+          {
+            "emptyDir": {},
+            "name": "home"
+          },
+          {
+            "emptyDir": {},
+            "name": "tmp"
           }
         ]
       }
