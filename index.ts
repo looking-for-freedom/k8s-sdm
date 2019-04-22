@@ -20,7 +20,8 @@ import {
     Configuration,
     configurationValue,
     HttpClient,
-    HttpClientFactory, logger,
+    HttpClientFactory,
+    logger,
     WSWebSocketFactory,
 } from "@atomist/automation-client";
 import { configureLogzio } from "@atomist/automation-client-ext-logzio";
