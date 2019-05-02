@@ -28,7 +28,7 @@
     "@atomist/automation-client": "^1.4.1-master.20190501164912",
     "@atomist/automation-client-ext-logzio": "^1.0.2",
     "@atomist/sdm": "^1.4.1",
-    "@atomist/sdm-core": "^1.4.0",
+    "@atomist/sdm-core": "^1.5.0-master.20190429220018",
     "@atomist/sdm-pack-build": "^1.0.4",
     "@atomist/sdm-pack-docker": "^1.1.0",
     "@atomist/sdm-pack-k8s": "^1.4.2",
