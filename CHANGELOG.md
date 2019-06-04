@@ -7,9 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/k8s-sdm/compare/1.2.0...HEAD)
 
+### Fixed
+
+-   Incorporate shutdown fixes from dependencies.
+
 ## [1.2.0](https://github.com/atomist/k8s-sdm/compare/1.1.1...1.2.0) - 2019-05-21
 
+### Added
+
+-   Sync-to-repo mode from sdm-pack-k8s.
+
 ## [1.1.1](https://github.com/atomist/k8s-sdm/compare/1.1.0...1.1.1) - 2019-04-17
+
+### Fixed
+
+-   Incorporate fixes from dependencies.
 
 ## [1.1.0](https://github.com/atomist/k8s-sdm/compare/1.0.5...1.1.0) - 2019-04-02
 
