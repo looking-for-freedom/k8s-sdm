@@ -19,7 +19,7 @@ metadata:
   name: k8s-sdm
 rules:
   - apiGroups: [""]
-    resources: ["namespaces", "pods", "secrets", "serviceaccounts", "services"]
+    resources: ["pods", "secrets", "serviceaccounts", "services"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["apps", "extensions"]
     resources: ["deployments"]
@@ -28,10 +28,7 @@ rules:
     resources: ["ingresses"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["rbac.authorization.k8s.io"]
-    resources: ["clusterroles", "clusterrolebindings", "roles", "rolebindings"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  - apiGroups: ["batch"]
-    resources: ["jobs"]
+    resources: ["roles", "rolebindings"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -86,7 +83,7 @@ spec:
               value: /opt/atm/client.config.json
             - name: TMPDIR
               value: /tmp
-          image: atomist/k8s-sdm:1.1.1
+          image: atomist/k8s-sdm:1.2.0
           livenessProbe:
             failureThreshold: 3
             httpGet:
