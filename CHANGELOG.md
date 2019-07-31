@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/k8s-sdm/compare/1.2.1...HEAD)
 
+### Added
+
+-   Provide GitOps/sync RBAC cluster role. [#24](https://github.com/atomist/k8s-sdm/issues/24)
+
 ## [1.2.1](https://github.com/atomist/k8s-sdm/compare/1.2.0...1.2.1) - 2019-06-04
 
 ### Fixed
